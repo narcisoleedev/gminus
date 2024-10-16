@@ -7,6 +7,21 @@
 
 int row = 0;
 
+vector<string> symbolTable; //Symbol Table
+
+int checkIfInST(string lex){
+    if(symbolTable.size()>0){
+        int i = 1;
+        for(string comp: symbolTable){
+            if(lex==comp){
+                return i;
+            }
+            i++;
+        } 
+    }
+    return 0;
+}
+
 int iswhitespace(char bs) {
 
     if (bs == '\n') { 
@@ -49,6 +64,9 @@ int issymbol(char character) {
             return -1;  
     }
 }
+std::vector<string> getSymbolTable(){
+    return symbolTable;
+}
 
 std::vector<Token> getTokens(string& file){
 
@@ -64,30 +82,46 @@ std::vector<Token> getTokens(string& file){
                 i++;
             }
             if(isdigit(file[i])){
-                Token token = Token("ERROR", tp::ERROR, "ERROR", row);
+                Token token = Token("ERROR", "error", "", row);
                 tokens.push_back(token);
             } else {
                 if(lex == "if"){
-                    Token token = Token(lex, tp::KEYWORD, "KEYWORD", row);
+                    Token token = Token(lex, lex, "", row);
                     tokens.push_back(token);
                 } else if(lex == "else"){
-                    Token token = Token(lex, tp::KEYWORD, "KEYWORD", row);
+                    Token token = Token(lex, lex, "", row);
                     tokens.push_back(token);
                 } else if(lex == "int"){
-                    Token token = Token(lex, tp::KEYWORD, "KEYWORD", row);
+                    Token token = Token(lex, lex, "", row);
                     tokens.push_back(token);
                 } else if(lex == "return"){
-                    Token token = Token(lex, tp::KEYWORD, "KEYWORD", row);
+                    Token token = Token(lex, lex, "", row);
                     tokens.push_back(token);
                 } else if(lex == "void"){
-                    Token token = Token(lex, tp::KEYWORD, "KEYWORD", row);
+                    Token token = Token(lex, lex, "", row);
                     tokens.push_back(token);
                 } else if(lex == "while"){
-                    Token token = Token(lex, tp::KEYWORD, "KEYWORD", row);
+                    Token token = Token(lex, lex, "", row);
+                    tokens.push_back(token);
+                } else if(lex == "do"){
+                    Token token = Token(lex, lex, "", row);
+                    tokens.push_back(token);
+                } else if(lex == "for"){
+                    Token token = Token(lex, lex, "", row);
                     tokens.push_back(token);
                 } else {
-                    Token token = Token(lex, tp::ID, "", row);
-                    tokens.push_back(token);
+
+                    int pos = checkIfInST(lex);
+                    if(pos){
+                        int posm = pos-1;
+                        Token token = Token(lex, "id", to_string(posm), row);
+                        tokens.push_back(token);
+                    } else {
+                        symbolTable.push_back(lex);
+                        int sizeArr = symbolTable.size() - 1;
+                        Token token = Token(lex, "id", to_string(sizeArr), row);
+                        tokens.push_back(token);
+                    }
                 }
             }
             i--;
@@ -100,11 +134,20 @@ std::vector<Token> getTokens(string& file){
                 i++;
             }
             if(std::isalpha(std::tolower(file[i], std::locale("pt_BR.UTF-8")), std::locale("pt_BR.UTF-8"))){
-                Token token = Token("ERROR", tp::ERROR, "ERROR", row);
+                Token token = Token("ERROR", "error", "", row);
                 tokens.push_back(token);
             } else {
-                Token token = Token(lex, tp::NUM, "NUM", row);
-                tokens.push_back(token);
+                int pos = checkIfInST(lex);
+                    if(pos){
+                        int posm = pos-1;
+                        Token token = Token(lex, "number", to_string(posm), row);
+                        tokens.push_back(token);
+                    } else {
+                        symbolTable.push_back(lex);
+                        int sizeArr = symbolTable.size() - 1;
+                        Token token = Token(lex, "number", to_string(sizeArr), row);
+                        tokens.push_back(token);
+                    }
             }
             i--;
     
@@ -112,11 +155,11 @@ std::vector<Token> getTokens(string& file){
 
             string lex(1, file[i]);
             if (iswhitespace(file[i]) == 1) {
-                Token token = Token(lex, tp::BLANK, "SPACE", row);
+                Token token = Token(lex, "", "", row);
                 tokens.push_back(token);
 
             } else if (iswhitespace(file[i]) == 2) {
-                Token token = Token("\\n", tp::BLANK, "EOL", row);
+                Token token = Token("\\n", "", "", row);
                 tokens.push_back(token);
                 row++; 
             }
@@ -130,7 +173,7 @@ std::vector<Token> getTokens(string& file){
             }    
 
             if(lex=="//"){ //one-file comment
-                Token token = Token(lex, tp::COMMENT, "OLC", row);
+                Token token = Token(lex, "symbol", "", row);
                 tokens.push_back(token);
                 while (i < file.size() && file[i] != '\n') {
                     i++;
@@ -138,13 +181,13 @@ std::vector<Token> getTokens(string& file){
                 row++;
 
             } else if (lex == "/*") {
-                Token token = Token(lex, tp::COMMENT, "MLC", row);
+                Token token = Token(lex, "symbol", "", row);
                 tokens.push_back(token);
 
                 bool closed = false;
                 while (i < file.size()) {
                     if (i + 1 < file.size() && file[i] == '*' && file[i + 1] == '/') {
-                        Token token = Token("*/", tp::COMMENT, "MLC", row);
+                        Token token = Token("*/", "symbol", "", row);
                         tokens.push_back(token);
                         i++;
                         closed = true;
@@ -156,43 +199,43 @@ std::vector<Token> getTokens(string& file){
                     i++;
                 }
                 if (!closed) {
-                    Token error_token = Token("Unclosed Comment", tp::ERROR, "ERROR", row);
+                    Token error_token = Token("Unclosed Comment", "error", "", row);
                     tokens.push_back(error_token);
                 }
 
             } else {
                 if(lex=="<"){
-                    Token token = Token(lex, tp::SYMBOL, "LT", row);
+                    Token token = Token(lex, "relop", "LT", row);
                     tokens.push_back(token);
                 } else if (lex=="<="){
-                    Token token = Token(lex, tp::SYMBOL, "LET", row);
+                    Token token = Token(lex, "relop", "LE", row);
                     tokens.push_back(token);
                 }else if (lex==">"){
-                    Token token = Token(lex, tp::SYMBOL, "GT", row);
+                    Token token = Token(lex, "relop", "GT", row);
                     tokens.push_back(token);
                 } else if (lex==">="){
-                    Token token = Token(lex, tp::SYMBOL, "GET", row);
+                    Token token = Token(lex, "relop", "GE", row);
                     tokens.push_back(token);
                 } else if (lex=="=="){
-                    Token token = Token(lex, tp::SYMBOL, "EQ", row);
+                    Token token = Token(lex, "relop", "EQ", row);
                     tokens.push_back(token);
                 } else if (lex=="<>"){
-                    Token token = Token(lex, tp::SYMBOL, "NE", row);
+                    Token token = Token(lex, "relop", "NE", row);
                     tokens.push_back(token);
                 }  else if (lex=="!="){
-                    Token token = Token(lex, tp::SYMBOL, "NOT", row);
+                    Token token = Token(lex, "relop", "NT", row);
                     tokens.push_back(token);
                 } else {
                     if(lex.length()==2){
                         string a = string(1, lex[0]);
-                        Token tokenA = Token(a, tp::SYMBOL, "SYMBOL", row);
+                        Token tokenA = Token(a, "symbol", "", row);
                         tokens.push_back(tokenA);
                         string b = string(1, lex[1]);
-                        Token tokenB = Token(b, tp::SYMBOL, "SYMBOL", row);
+                        Token tokenB = Token(b, "symbol", "", row);
                         tokens.push_back(tokenB);
 
                     } else {
-                        Token token = Token(lex, tp::SYMBOL, "SYMBOL", row);
+                        Token token = Token(lex, "symbol", "", row);
                         tokens.push_back(token);
                     }
                 }

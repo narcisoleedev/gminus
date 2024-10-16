@@ -5,7 +5,7 @@
 
 using namespace std;
 
-enum class tp{
+/*enum class tp{
     ID,
     KEYWORD,
     NUM, 
@@ -14,21 +14,16 @@ enum class tp{
     COMMENT,
     ENDOFFILE,
     ERROR
-};
+};*/
 
 class Token{
-    /*private:
-        string lex;
-        tp typeLex;
-        string attr;
-        int line;*/
 
     public:
         string lex;
-        tp typeLex;
+        string typeLex;
         string attr;
         int line;
-        Token(string lex, tp typeLex, string attr, int line){
+        Token(string lex, string typeLex, string attr, int line){
             this->lex = lex;
             this->typeLex = typeLex;
             this->attr = attr;
@@ -37,5 +32,7 @@ class Token{
     
 };
 
-vector<Token> getTokens(string& line);
+vector<Token> getTokens(string& line); //getTokens
+
+vector<string> getSymbolTable(); //Symbol Table
 
