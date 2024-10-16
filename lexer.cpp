@@ -64,6 +64,12 @@ int issymbol(char character) {
             return -1;  
     }
 }
+
+string iserror(char character){
+    if(issymbol(character)!=-1) return "symbol";
+    return "error";
+}
+
 std::vector<string> getSymbolTable(){
     return symbolTable;
 }
@@ -210,7 +216,7 @@ std::vector<Token> getTokens(string& file){
                 } else if (lex=="<="){
                     Token token = Token(lex, "relop", "LE", row);
                     tokens.push_back(token);
-                }else if (lex==">"){
+                } else if (lex==">"){
                     Token token = Token(lex, "relop", "GT", row);
                     tokens.push_back(token);
                 } else if (lex==">="){
@@ -219,23 +225,54 @@ std::vector<Token> getTokens(string& file){
                 } else if (lex=="=="){
                     Token token = Token(lex, "relop", "EQ", row);
                     tokens.push_back(token);
-                } else if (lex=="<>"){
+                } else if (lex=="!="){
                     Token token = Token(lex, "relop", "NE", row);
                     tokens.push_back(token);
-                }  else if (lex=="!="){
-                    Token token = Token(lex, "relop", "NT", row);
+                } else if (lex=="+"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="-"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="*"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex==";"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="("){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex==")"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="["){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="]"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="{"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="}"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
+                } else if (lex=="="){
+                    Token token = Token(lex, "symbol", "", row);
                     tokens.push_back(token);
                 } else {
+
                     if(lex.length()==2){
                         string a = string(1, lex[0]);
-                        Token tokenA = Token(a, "symbol", "", row);
+                        Token tokenA = Token(a, iserror(lex[0]), "", row);
                         tokens.push_back(tokenA);
                         string b = string(1, lex[1]);
-                        Token tokenB = Token(b, "symbol", "", row);
+                        Token tokenB = Token(b, iserror(lex[1]), "", row);
                         tokens.push_back(tokenB);
 
                     } else {
-                        Token token = Token(lex, "symbol", "", row);
+                        Token token = Token(lex, "error", "", row);
                         tokens.push_back(token);
                     }
                 }

@@ -8,4 +8,5 @@ main:
 	./lexer ./input/prg6.c- > out6.txt 2>&1
 	./lexer ./input/prg7.c- > out7.txt 2>&1
 	./lexer ./input/prg8.c- > out8.txt 2>&1
+	./lexer ./input/prg9.c- > out9.txt 2>&1
 
