@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     cout << "\n";
     cout << "SYMBOL TABLE" << endl;
     for(string str: getSymbolTable()){
-        cout << "|" << str << "|" << endl;
+        cout << str << "|" << endl;
     }
     return 0;
 }
