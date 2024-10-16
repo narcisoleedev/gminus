@@ -1,8 +1,9 @@
-#include <string>
-#include <fstream>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
 
-#include "header.hpp"
+#include "lexer.hpp"
 
 using namespace std;
 
@@ -11,14 +12,15 @@ int main(int argc, char *argv[]){
     string line;
 
     if(file.is_open()){
-        while(getline(file, line)){
-            for(Token& token: getTokens(line)){
-                cout << token.getToken() << "\n";
-            }
+        stringstream buffer;
+        buffer << file.rdbuf(); 
+        std::string fileContent = buffer.str();
+        for (Token token : getTokens(fileContent)) {
+            cout << "Row:" << token.line << "|" << token.lex << "|" << token.attr << "|" << std::endl;
         }
-        file.close();
     } else {
         cerr << "Unable to open file for some reason buddy." << "\n";
     }
+    file.close();
     return 0;
 }
