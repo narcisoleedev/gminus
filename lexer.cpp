@@ -4,6 +4,7 @@
 #include <cctype>
 #include <locale>
 #include "lexer.hpp"
+#include "parser.tab.h"
 
 int row = 0;
 
@@ -74,6 +75,7 @@ std::vector<string> getSymbolTable(){
     return symbolTable;
 }
 
+std::vector<Token> TokenList;
 std::vector<Token> getTokens(string& file){
 
     std::vector<Token> tokens;
@@ -161,12 +163,12 @@ std::vector<Token> getTokens(string& file){
 
             string lex(1, file[i]);
             if (iswhitespace(file[i]) == 1) {
-                Token token = Token(lex, "", "", row);
-                tokens.push_back(token);
+                //Token token = Token(lex, "", "", row);
+                //tokens.push_back(token);
 
             } else if (iswhitespace(file[i]) == 2) {
-                Token token = Token("\\n", "", "", row);
-                tokens.push_back(token);
+                //Token token = Token("\\n", "", "", row);
+                //tokens.push_back(token);
                 row++; 
             }
 
@@ -179,22 +181,22 @@ std::vector<Token> getTokens(string& file){
             }    
 
             if(lex=="//"){ //one-file comment
-                Token token = Token(lex, "symbol", "", row);
-                tokens.push_back(token);
+                //Token token = Token(lex, "symbol", "", row);
+                //tokens.push_back(token);
                 while (i < file.size() && file[i] != '\n') {
                     i++;
                 }
                 row++;
 
             } else if (lex == "/*") {
-                Token token = Token(lex, "symbol", "", row);
-                tokens.push_back(token);
+                //Token token = Token(lex, "symbol", "", row);
+                //tokens.push_back(token);
 
                 bool closed = false;
                 while (i < file.size()) {
                     if (i + 1 < file.size() && file[i] == '*' && file[i + 1] == '/') {
-                        Token token = Token("*/", "symbol", "", row);
-                        tokens.push_back(token);
+                        //Token token = Token("*/", "symbol", "", row);
+                        //tokens.push_back(token);
                         i++;
                         closed = true;
                         break;
@@ -280,5 +282,30 @@ std::vector<Token> getTokens(string& file){
             }
         }
     }
+    TokenList = tokens;
     return tokens;
 } 
+
+int indexlex = 0;
+int yylex(){
+    int type;
+    if (indexlex < TokenList.size()) {
+        std::string info = TokenList[indexlex].typeLex;
+    if (info == "number") {
+        type = NUMBER;
+    } else if (info == "relop") {
+        type = RELOP;
+    } else if (info == "id") {
+        type = ID;
+    } else if (info == "symbol") {
+        type = SYMBOL;
+    } 
+    else {
+        type = KEYWORD;
+    }
+        // std::cout << TokenList[indexlex].lex << std::endl;
+    }
+    else return YYEOF;
+    indexlex +=1;
+    return type;
+}
