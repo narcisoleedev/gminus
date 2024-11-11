@@ -282,30 +282,68 @@ std::vector<Token> getTokens(string& file){
             }
         }
     }
-    TokenList = tokens;
+    tokenList = tokens;
     return tokens;
 } 
 
-int indexlex = 0;
+//TRANSFORMA NOSSO LEX EM UM LEX LEGÍVEL PELO BISON
 int yylex(){
-    int type;
-    if (indexlex < TokenList.size()) {
-        std::string info = TokenList[indexlex].typeLex;
-    if (info == "number") {
-        type = NUMBER;
-    } else if (info == "relop") {
-        type = RELOP;
-    } else if (info == "id") {
-        type = ID;
-    } else if (info == "symbol") {
-        type = SYMBOL;
-    } 
-    else {
-        type = KEYWORD;
-    }
+
+    for(Token token: tokenList){
+        std::string tokenType = token.typeLex;
+        std::string tokenLex = token.lex;
+
+        if (tokenType == "number") {
+            return NUMBER;
+
+        } else if (okenType == "relop") {
+            return RELOP;
+
+        } else if (info == "id") {
+            //uma string (ou id) pode ser um int, void, ou id;
+            if(tokenLex == "int"){
+                return INT;
+            } else if (tokenLex == "void"){
+                return VOID;
+            } else {
+                return ID;
+            }
+
+        } else if (info == "symbol") {
+            //um símbolo pode ser +, -, *, /, ;, ,, (, ), [, ], {, }
+            if(tokenLex == "+"){
+                return PLUS;
+            } else if(tokenLex == "-"){
+                return MINUS;
+            } else if(tokenLex == "*"){
+                return TIMES;
+            } else if(tokenLex == "/"){
+                return DIV;
+            } else if(tokenLex == ";"){
+                return PV;
+            } else if(tokenLex == ","){
+                return CONMA;
+            } else if(tokenLex == "("){
+                return OP;
+            } else if(tokenLex == ")"){
+                return CP;
+            } else if(tokenLex == "["){
+                return OB;
+            } else if(tokenLex == "]"){
+                return CB;
+            } else if(tokenLex == "{"){
+                return OCB;
+            } else if(tokenLex == "}"){
+                return CCB;
+            } else {
+                return ERROR;
+            }
+        } else {
+            //agora se for keyword é if, else, return, while
+            if(tokenLex=={})
+        }
         // std::cout << TokenList[indexlex].lex << std::endl;
     }
     else return YYEOF;
-    indexlex +=1;
-    return type;
+
 }

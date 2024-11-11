@@ -1,11 +1,10 @@
 %{
-#include <cstdio>
-#include <cstdlib>
+    #include <cstdio>
+    #include <cstdlib>
 
-// Declare yylex so Bison can find it.
-int yylex();
-void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+    int yylex();
+    void yyerror(const char *s) {
+        fprintf(stderr, "Error: %s\n", s);
 }
 %}
 

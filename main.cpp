@@ -30,13 +30,5 @@ int main(int argc, char *argv[]){
         cout << str << "|" << endl;
     }
     cout << "\n";
-    // cout << "yylex tests" << endl;
-    // int yylex();
-    // yylex();
-    // yylex();
-    // yylex();
-    cout << "YY PARSE AGORA" << endl;
-    int yyparse();
-    yyparse();
     return 0;
 }
