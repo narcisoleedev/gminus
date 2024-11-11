@@ -75,7 +75,7 @@ std::vector<string> getSymbolTable(){
     return symbolTable;
 }
 
-std::vector<Token> TokenList;
+std::vector<Token> tokenList;
 std::vector<Token> getTokens(string& file){
 
     std::vector<Token> tokens;
@@ -287,29 +287,24 @@ std::vector<Token> getTokens(string& file){
 } 
 
 //TRANSFORMA NOSSO LEX EM UM LEX LEGÍVEL PELO BISON
+int index = 0;
 int yylex(){
 
-    for(Token token: tokenList){
-        std::string tokenType = token.typeLex;
-        std::string tokenLex = token.lex;
+    if(index<tokenList.size()){
+        index++;
+        std::string tokenType = tokenList[index-1].typeLex;
+        std::string tokenLex = tokenList[index-1].lex;
 
         if (tokenType == "number") {
             return NUMBER;
 
-        } else if (okenType == "relop") {
+        } else if (tokenType == "relop") {
             return RELOP;
 
-        } else if (info == "id") {
-            //uma string (ou id) pode ser um int, void, ou id;
-            if(tokenLex == "int"){
-                return INT;
-            } else if (tokenLex == "void"){
-                return VOID;
-            } else {
-                return ID;
-            }
+        } else if (tokenType == "id") {
+            return ID;
 
-        } else if (info == "symbol") {
+        } else if (tokenType == "symbol") {
             //um símbolo pode ser +, -, *, /, ;, ,, (, ), [, ], {, }
             if(tokenLex == "+"){
                 return PLUS;
@@ -322,7 +317,7 @@ int yylex(){
             } else if(tokenLex == ";"){
                 return PV;
             } else if(tokenLex == ","){
-                return CONMA;
+                return COMMA;
             } else if(tokenLex == "("){
                 return OP;
             } else if(tokenLex == ")"){
@@ -336,14 +331,26 @@ int yylex(){
             } else if(tokenLex == "}"){
                 return CCB;
             } else {
-                return ERROR;
+                return VEJODEPOIS;
             }
-        } else {
-            //agora se for keyword é if, else, return, while
-            if(tokenLex=={})
-        }
-        // std::cout << TokenList[indexlex].lex << std::endl;
-    }
-    else return YYEOF;
 
+        } else {
+            if(tokenLex == "int"){
+                return INT;
+            } else if (tokenLex == "void"){
+                return VOID;
+            } else if(tokenLex == "if"){
+                return IF;
+            } else if(tokenLex == "else"){
+                return ELSE;
+            } else if(tokenLex == "return"){
+                return RETURN;
+            } else if(tokenLex == "while"){
+                return WHILE;
+            }
+        }
+    } else {
+        return YYEOF;
+    }
+    
 }

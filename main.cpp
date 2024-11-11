@@ -7,9 +7,13 @@
 
 using namespace std;
 
+int yyparse();
+int yylex();
+
 int main(int argc, char *argv[]){
     ifstream file(argv[1]);
     string line;
+    int c=0;
 
     if(file.is_open()){
         stringstream buffer;
@@ -19,6 +23,7 @@ int main(int argc, char *argv[]){
         cout << "ROW|LEX|TOKEN|ATTRIBUTE" << endl;
         for (Token token: getTokens(fileContent)) {
             cout << "Row:" << token.line << "|" << token.lex << "|" << token.typeLex << "|" << token.attr << "|" << std::endl;
+            c++;
         }
     } else {
         cerr << "Unable to open file for some reason buddy." << "\n";
@@ -30,5 +35,6 @@ int main(int argc, char *argv[]){
         cout << str << "|" << endl;
     }
     cout << "\n";
+    for(int i=0;i<=c;i++) cout<<yylex()<<endl;
     return 0;
 }
