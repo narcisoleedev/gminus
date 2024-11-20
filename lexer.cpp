@@ -263,6 +263,9 @@ std::vector<Token> getTokens(string& file){
                 } else if (lex=="="){
                     Token token = Token(lex, "symbol", "", row);
                     tokens.push_back(token);
+                } else if (lex==","){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
                 } else {
 
                     if(lex.length()==2){
@@ -305,7 +308,7 @@ int yylex(){
             return ID;
 
         } else if (tokenType == "symbol") {
-            //um símbolo pode ser +, -, *, /, ;, ,, (, ), [, ], {, }
+            //um símbolo pode ser +, -, *, /, ;, ,, (, ), [, ], {, }, =
             if(tokenLex == "+"){
                 return PLUS;
             } else if(tokenLex == "-"){
@@ -330,6 +333,8 @@ int yylex(){
                 return OCB;
             } else if(tokenLex == "}"){
                 return CCB;
+            } else if(tokenLex == "="){
+                return EQUAL;
             } else {
                 return VEJODEPOIS;
             }
@@ -347,6 +352,10 @@ int yylex(){
                 return RETURN;
             } else if(tokenLex == "while"){
                 return WHILE;
+            } else if(tokenLex == "for"){
+                return FOR;
+            } else {
+                return ERROR;
             }
         }
     } else {

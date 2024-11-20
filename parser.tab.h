@@ -63,19 +63,22 @@ extern int yydebug;
     RETURN = 264,                  /* RETURN  */
     WHILE = 265,                   /* WHILE  */
     ID = 266,                      /* ID  */
-    PLUS = 267,                    /* PLUS  */
-    MINUS = 268,                   /* MINUS  */
-    TIMES = 269,                   /* TIMES  */
-    DIV = 270,                     /* DIV  */
-    PV = 271,                      /* PV  */
-    COMMA = 272,                   /* COMMA  */
-    OP = 273,                      /* OP  */
-    CP = 274,                      /* CP  */
-    OB = 275,                      /* OB  */
-    CB = 276,                      /* CB  */
-    OCB = 277,                     /* OCB  */
-    CCB = 278,                     /* CCB  */
-    VEJODEPOIS = 279               /* VEJODEPOIS  */
+    FOR = 267,                     /* FOR  */
+    PLUS = 268,                    /* PLUS  */
+    MINUS = 269,                   /* MINUS  */
+    TIMES = 270,                   /* TIMES  */
+    DIV = 271,                     /* DIV  */
+    PV = 272,                      /* PV  */
+    COMMA = 273,                   /* COMMA  */
+    OP = 274,                      /* OP  */
+    CP = 275,                      /* CP  */
+    OB = 276,                      /* OB  */
+    CB = 277,                      /* CB  */
+    OCB = 278,                     /* OCB  */
+    CCB = 279,                     /* CCB  */
+    EQUAL = 280,                   /* EQUAL  */
+    VEJODEPOIS = 281,              /* VEJODEPOIS  */
+    ERROR = 282                    /* ERROR  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

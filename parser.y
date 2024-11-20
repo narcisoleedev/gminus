@@ -11,8 +11,9 @@
 %token NUMBER 
 %token RELOP
 %token INT VOID 
-%token IF ELSE RETURN WHILE ID
-%token PLUS MINUS TIMES DIV PV COMMA OP CP OB CB OCB CCB VEJODEPOIS
+%token IF ELSE RETURN WHILE ID FOR
+%token PLUS MINUS TIMES DIV PV COMMA OP CP OB CB OCB CCB EQUAL VEJODEPOIS
+%token ERROR
 %token YYEOF
 
 %%
@@ -26,6 +27,7 @@ expr:
     | RETURN expr_tail { printf("Parsed a RETURN\n"); }
     | WHILE expr_tail { printf("Parsed a WHILE\n"); }
     | ID expr_tail { printf("Parsed an ID\n"); }
+    | FOR expr_tail { printf("Parsed an FOR\n"); }
     | PLUS expr_tail { printf("Parsed a PLUS\n"); }
     | MINUS expr_tail { printf("Parsed a MINUS\n"); }
     | TIMES expr_tail { printf("Parsed a TIMES\n"); }
@@ -38,8 +40,10 @@ expr:
     | CB expr_tail { printf("Parsed a CB (close bracket)\n"); }
     | OCB expr_tail { printf("Parsed an OCB (open curly brace)\n"); }
     | CCB expr_tail { printf("Parsed a CCB (close curly brace)\n"); }
+    | EQUAL expr_tail { printf("Parsed a EQUAL (close curly brace)\n"); }
     | VEJODEPOIS expr_tail { printf("Parsed a VEJODEPOIS\n"); }
     | YYEOF { printf("Parsed an EOF\n"); }
+    | ERROR { printf("Parsed an ERROR\n"); }
     | /* empty */ { /* This is the base case for recursion */ }
     ;
 
@@ -47,6 +51,9 @@ expr_tail:
     expr { /* continue parsing */ }
     // | /* empty */ { /* end of expression */ }
     ;
+
+EXP: 
+
 
 %%
 

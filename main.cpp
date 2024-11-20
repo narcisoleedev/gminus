@@ -35,6 +35,7 @@ int main(int argc, char *argv[]){
         cout << str << "|" << endl;
     }
     cout << "\n";
-    for(int i=0;i<=c;i++) cout<<yylex()<<endl;
+    //for(int i=0;i<=c;i++) cout<<yylex()<<endl;
+    yyparse();
     return 0;
 }
