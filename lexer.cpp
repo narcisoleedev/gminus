@@ -290,6 +290,11 @@ std::vector<Token> getTokens(string& file){
 } 
 
 //TRANSFORMA NOSSO LEX EM UM LEX LEGÍVEL PELO BISON
+
+int cRow = 1;
+int yylineo () {
+    return cRow+1;
+}
 int index = 0;
 int yylex(){
 
@@ -297,7 +302,7 @@ int yylex(){
         index++;
         std::string tokenType = tokenList[index-1].typeLex;
         std::string tokenLex = tokenList[index-1].lex;
-
+        cRow = tokenList[index-1].line;
         if (tokenType == "number") {
             return NUMBER;
 
