@@ -4,6 +4,7 @@
 #include <string>
 
 #include "lexer.hpp"
+#include "ast.hpp"
 
 using namespace std;
 
@@ -29,13 +30,12 @@ int main(int argc, char *argv[]){
         cerr << "Unable to open file for some reason buddy." << "\n";
     }
     file.close();
-    cout << "\n";
-    cout << "SYMBOL TABLE" << endl;
-    for(string str: getSymbolTable()){
-        cout << str << "|" << endl;
-    }
-    cout << "\n";
-    //for(int i=0;i<=c;i++) cout<<yylex()<<endl;
+    // cout << "\n";
+    // cout << "SYMBOL TABLE" << endl;
+    // for(string str: getSymbolTable()){
+    //     cout << str << "|" << endl;
+    // }
+    // cout << "\n";
     yyparse();
-    return 0;
+
 }

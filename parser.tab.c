@@ -71,6 +71,7 @@
 
     #include <cstdio>
     #include <cstdlib>
+    #include <string>
 
     int yylex();
     int yylineo();
@@ -78,7 +79,7 @@
         fprintf(stderr, "Error at line %i: %s\n",yylineo(), s);
     }
 
-#line 82 "parser.tab.c"
+#line 83 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -488,18 +489,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  10
+#define YYFINAL  9
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   122
+#define YYLAST   106
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  28
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  29
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  62
+#define YYNRULES  58
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  98
+#define YYNSTATES  96
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   282
@@ -549,15 +550,14 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    23,    23,    26,    27,    30,    31,    34,    35,    38,
-      39,    40,    43,    46,    47,    50,    51,    54,    55,    58,
-      61,    61,    62,    65,    65,    66,    69,    70,    71,    72,
-      73,    73,    76,    77,    80,    81,    84,    87,    88,    91,
-      92,    95,    96,    99,   100,   101,   104,   105,   108,   109,
-     112,   113,   116,   117,   120,   121,   122,   123,   126,   129,
-     130,   132,   133
+       0,    38,    38,    48,    53,    60,    65,    72,    78,    89,
+      94,   102,   114,   119,   125,   132,   139,   145,   155,   165,
+     171,   177,   183,   189,   194,   199,   204,   209,   216,   221,
+     227,   236,   249,   260,   265,   273,   280,   287,   292,   302,
+     309,   314,   317,   324,   331,   336,   343,   350,   357,   362,
+     369,   376,   381,   386,   393,   403,   408,   413,   420
 };
 #endif
 
@@ -592,12 +592,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-83)
+#define YYPACT_NINF (-81)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-61)
+#define YYTABLE_NINF (-57)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -606,16 +606,16 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      81,   -83,   -83,   -83,    18,    10,   -83,   -83,    -3,   -83,
-     -83,   -83,   -83,    82,   -83,    91,    30,    26,    27,    37,
-      41,   -83,    54,    59,    65,    81,    77,    73,   -83,   -83,
-     -83,   -83,   -83,    25,   -83,    87,    55,     8,   -83,   -83,
-      83,    74,    85,    20,   -83,     2,   -83,   -83,   -83,   -83,
-     -83,   -83,   -83,    90,    75,   -83,    56,    68,   -83,   -83,
-       2,   -83,   -83,     2,    70,     2,    88,   -83,     2,    -2,
-     -83,   -83,    -2,   -83,   -83,    -2,    89,    93,   -83,    94,
-      97,    95,   -83,   -83,   -83,    92,    68,   -83,    44,    44,
-     -83,     2,   -83,   102,   -83,   -83,    44,   -83
+      52,   -81,   -81,     2,     3,   -81,   -81,    -6,   -81,   -81,
+     -81,   -81,    54,   -81,    52,    17,    30,    45,    49,   -81,
+      46,    59,    58,    52,    57,    60,   -81,   -81,   -81,   -81,
+     -81,    52,   -81,    72,    25,    -5,   -81,   -81,    66,    14,
+      67,    19,   -81,    51,   -81,   -81,   -81,   -81,   -81,   -81,
+     -81,    70,    63,   -81,    47,    61,   -81,   -81,    51,   -81,
+     -81,    51,    10,    51,    64,   -81,    51,    53,   -81,   -81,
+      53,   -81,   -81,    53,    69,    71,   -81,    73,    74,    68,
+     -81,   -81,   -81,    65,    61,   -81,    36,    36,   -81,    51,
+     -81,    86,   -81,   -81,    36,   -81
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -623,32 +623,32 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,    11,     9,    10,     0,     0,     4,     5,     0,     6,
-       1,     2,     3,     0,     7,     0,     0,    10,     0,     0,
-      13,    16,     0,    17,     0,     0,     0,     0,    21,    12,
-      15,     8,    18,     0,    20,     0,     0,     0,    45,    57,
-       0,     0,     0,    41,    33,     0,    19,    27,    23,    26,
-      28,    29,    30,     0,    55,    40,    44,    47,    51,    56,
-       0,    37,    38,     0,     0,     0,     0,    32,     0,     0,
-      48,    49,     0,    52,    53,     0,     0,     0,    62,     0,
-      59,     0,    54,    39,    55,    43,    46,    50,     0,     0,
-      58,     0,    42,    34,    36,    61,     0,    35
+       0,     9,    10,     0,     0,     4,     5,     0,     6,     1,
+       2,     3,     0,     7,    13,     0,     0,     0,    12,    15,
+       0,    16,     0,     0,     0,     0,    20,    11,    14,     8,
+      17,    22,    19,     0,     0,     0,    41,    53,     0,     0,
+       0,    37,    29,     0,    18,    24,    21,    23,    25,    26,
+      27,     0,    51,    36,    40,    43,    47,    52,     0,    33,
+      34,     0,     0,     0,     0,    28,     0,     0,    44,    45,
+       0,    48,    49,     0,     0,     0,    58,     0,    55,     0,
+      50,    35,    51,    39,    42,    46,     0,     0,    54,     0,
+      38,    30,    32,    57,     0,    31
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -83,   -83,   -83,   106,    79,   -13,   -83,   -83,   -83,    96,
-      98,   -83,   -83,   -82,   -83,   -83,   -83,   -83,   -41,   -32,
-     -83,    47,   -83,    46,   -83,    45,   -83,   -83,   -83
+     -81,   -81,   -81,    91,    75,   -13,   -81,   -81,   -81,    76,
+      78,   -81,   -81,   -80,   -81,   -81,   -81,   -81,   -39,    -4,
+     -81,    29,   -81,    27,   -81,    28,   -81,   -81,   -81
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     4,     5,     6,     7,     8,     9,    19,    20,    21,
-      47,    33,    36,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    72,    57,    75,    58,    59,    79,    80
+       0,     3,     4,     5,     6,     7,     8,    17,    18,    19,
+      45,    31,    34,    46,    47,    48,    49,    50,    51,    52,
+      53,    54,    70,    55,    73,    56,    57,    77,    78
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -656,76 +656,70 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      62,    39,    18,    38,    66,    39,    93,    94,    13,    43,
-      11,     1,    18,    43,    97,     2,     3,    45,    10,    76,
-      35,    45,    77,    78,    81,    14,     1,    83,   -24,    16,
-       2,     3,   -24,    22,   -24,   -24,   -24,    84,    23,    64,
-      84,    65,   -24,    84,   -24,    38,   -14,    39,   -24,   -24,
-      95,    40,   -31,    41,    42,    43,    38,    24,    39,    25,
-      69,    44,    40,    45,    41,    42,    43,    28,   -31,    70,
-      71,    38,    44,    39,    45,    38,    26,    39,    28,    46,
-      27,    43,     1,    73,    74,    43,     2,     3,    28,    45,
-     -60,    61,     1,    45,    31,    32,     2,    17,    37,    14,
-      68,    15,    60,    16,    63,    70,    71,    67,    82,    88,
-      96,    12,    34,    89,    90,    91,    85,    92,    86,     0,
-      87,    30,    29
+      60,    16,     9,    10,    64,    12,    91,    92,     1,     2,
+      16,    36,    13,    37,    95,    36,    15,    37,    33,    74,
+      20,    41,    75,    76,    79,    41,    36,    81,    37,    43,
+     -56,    59,    38,    43,    39,    40,    41,    36,    62,    37,
+      63,    21,    42,    38,    43,    39,    40,    41,    26,    44,
+      93,    67,    36,    42,    37,    43,    37,     1,     2,    26,
+      68,    69,    41,    82,    41,    22,    82,    23,    24,    82,
+      43,    13,    43,    14,    29,    15,    71,    72,    68,    69,
+      25,    26,    30,    35,    80,    58,    61,    65,    66,    86,
+      90,    87,    89,    88,    94,    11,    83,    84,     0,    28,
+      27,    85,     0,     0,     0,     0,    32
 };
 
 static const yytype_int8 yycheck[] =
 {
-      41,     3,    15,     1,    45,     3,    88,    89,    11,    11,
-       0,     1,    25,    11,    96,     5,     6,    19,     0,    60,
-      33,    19,    63,    64,    65,    17,     1,    68,     3,    21,
-       5,     6,     7,     3,     9,    10,    11,    69,    11,    19,
-      72,    21,    17,    75,    19,     1,    20,     3,    23,    24,
-      91,     7,     8,     9,    10,    11,     1,    20,     3,    18,
-       4,    17,     7,    19,     9,    10,    11,    23,    24,    13,
-      14,     1,    17,     3,    19,     1,    22,     3,    23,    24,
-      21,    11,     1,    15,    16,    11,     5,     6,    23,    19,
-      20,    17,     1,    19,    17,    22,     5,     6,    11,    17,
-      25,    19,    19,    21,    19,    13,    14,    17,    20,    20,
-       8,     5,    33,    20,    20,    18,    69,    22,    72,    -1,
-      75,    25,    24
+      39,    14,     0,     0,    43,    11,    86,    87,     5,     6,
+      23,     1,    17,     3,    94,     1,    21,     3,    31,    58,
+       3,    11,    61,    62,    63,    11,     1,    66,     3,    19,
+      20,    17,     7,    19,     9,    10,    11,     1,    19,     3,
+      21,    11,    17,     7,    19,     9,    10,    11,    23,    24,
+      89,     4,     1,    17,     3,    19,     3,     5,     6,    23,
+      13,    14,    11,    67,    11,    20,    70,    18,    22,    73,
+      19,    17,    19,    19,    17,    21,    15,    16,    13,    14,
+      21,    23,    22,    11,    20,    19,    19,    17,    25,    20,
+      22,    20,    18,    20,     8,     4,    67,    70,    -1,    23,
+      22,    73,    -1,    -1,    -1,    -1,    31
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     1,     5,     6,    29,    30,    31,    32,    33,    34,
-       0,     0,    31,    11,    17,    19,    21,     6,    33,    35,
-      36,    37,     3,    11,    20,    18,    22,    21,    23,    38,
-      37,    17,    22,    39,    32,    33,    40,    11,     1,     3,
-       7,     9,    10,    11,    17,    19,    24,    38,    41,    42,
-      43,    44,    45,    46,    47,    48,    49,    51,    53,    54,
-      19,    17,    46,    19,    19,    21,    46,    17,    25,     4,
-      13,    14,    50,    15,    16,    52,    46,    46,    46,    55,
-      56,    46,    20,    46,    47,    49,    51,    53,    20,    20,
-      20,    18,    22,    41,    41,    46,     8,    41
+       0,     5,     6,    29,    30,    31,    32,    33,    34,     0,
+       0,    31,    11,    17,    19,    21,    33,    35,    36,    37,
+       3,    11,    20,    18,    22,    21,    23,    38,    37,    17,
+      22,    39,    32,    33,    40,    11,     1,     3,     7,     9,
+      10,    11,    17,    19,    24,    38,    41,    42,    43,    44,
+      45,    46,    47,    48,    49,    51,    53,    54,    19,    17,
+      46,    19,    19,    21,    46,    17,    25,     4,    13,    14,
+      50,    15,    16,    52,    46,    46,    46,    55,    56,    46,
+      20,    46,    47,    49,    51,    53,    20,    20,    20,    18,
+      22,    41,    41,    46,     8,    41
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    28,    29,    30,    30,    31,    31,    32,    32,    33,
-      33,    33,    34,    35,    35,    36,    36,    37,    37,    38,
-      39,    39,    39,    40,    40,    40,    41,    41,    41,    41,
-      41,    41,    42,    42,    43,    43,    44,    45,    45,    46,
-      46,    47,    47,    48,    48,    48,    49,    49,    50,    50,
-      51,    51,    52,    52,    53,    53,    53,    53,    54,    55,
-      55,    56,    56
+      33,    34,    35,    35,    36,    36,    37,    37,    38,    39,
+      39,    40,    40,    41,    41,    41,    41,    41,    42,    42,
+      43,    43,    44,    45,    45,    46,    46,    47,    47,    48,
+      48,    48,    49,    49,    50,    50,    51,    51,    52,    52,
+      53,    53,    53,    53,    54,    55,    55,    56,    56
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     2,     1,     1,     1,     3,     6,     1,
-       1,     1,     6,     1,     1,     3,     1,     2,     4,     4,
-       2,     0,     0,     2,     0,     0,     1,     1,     1,     1,
-       1,     0,     2,     1,     5,     7,     5,     2,     2,     3,
-       1,     1,     4,     3,     1,     1,     3,     1,     1,     1,
-       3,     1,     1,     1,     3,     1,     1,     1,     4,     1,
-       0,     3,     1
+       1,     6,     1,     0,     3,     1,     2,     4,     4,     2,
+       0,     2,     0,     1,     1,     1,     1,     1,     2,     1,
+       5,     7,     5,     2,     2,     3,     1,     1,     4,     3,
+       1,     1,     3,     1,     1,     1,     3,     1,     1,     1,
+       3,     1,     1,     1,     4,     1,     0,     3,     1
 };
 
 
@@ -1189,343 +1183,619 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* programa: declaracao-lista $end  */
-#line 23 "parser.y"
-                          { printf("Parsed a programa\n"); }
-#line 1195 "parser.tab.c"
+#line 38 "parser.y"
+                          { 
+        printf("Parsed a programa\n"); 
+        (yyval.ast) = new ASTNode("programa");
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        AST* tree = new AST((yyval.ast));
+        printf("\n");
+        tree->printTree();
+    }
+#line 1196 "parser.tab.c"
     break;
 
   case 3: /* declaracao-lista: declaracao-lista declaracao  */
-#line 26 "parser.y"
-                                { printf("Parsed a declaracao-lista\n"); }
-#line 1201 "parser.tab.c"
+#line 48 "parser.y"
+                                { 
+        printf("Parsed a declaracao-lista\n"); 
+        (yyval.ast) = new ASTNode("declaracao-lista");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+        }
+#line 1206 "parser.tab.c"
     break;
 
   case 4: /* declaracao-lista: declaracao  */
-#line 27 "parser.y"
-               { printf("Parsed a declaracao-lista\n"); }
-#line 1207 "parser.tab.c"
+#line 53 "parser.y"
+               { 
+        printf("Parsed a declaracao-lista\n"); 
+        (yyval.ast) = new ASTNode("declaracao-lista");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+        }
+#line 1216 "parser.tab.c"
     break;
 
   case 5: /* declaracao: var-declaracao  */
-#line 30 "parser.y"
-                   { printf("Parsed a declaracao\n"); }
-#line 1213 "parser.tab.c"
+#line 60 "parser.y"
+                   { 
+        printf("Parsed a declaracao\n"); 
+        (yyval.ast) = new ASTNode("declaracao");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+        }
+#line 1226 "parser.tab.c"
     break;
 
   case 6: /* declaracao: fun-declaracao  */
-#line 31 "parser.y"
-                   { printf("Parsed a declaracao\n"); }
-#line 1219 "parser.tab.c"
+#line 65 "parser.y"
+                   { 
+        printf("Parsed a declaracao\n"); 
+        (yyval.ast) = new ASTNode("declaracao");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1236 "parser.tab.c"
     break;
 
   case 7: /* var-declaracao: tipo-especificador ID PV  */
-#line 34 "parser.y"
-                             {  printf("Parsed a var-declaracao\n"); }
-#line 1225 "parser.tab.c"
+#line 72 "parser.y"
+                             { 
+        printf("Parsed a var-declaracao\n"); 
+        (yyval.ast) = new ASTNode("var-declaracao");
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("ID"));
+    }
+#line 1247 "parser.tab.c"
     break;
 
   case 8: /* var-declaracao: tipo-especificador ID OB NUMBER CB PV  */
-#line 35 "parser.y"
-                                          { printf("Parsed a var-declaracao \n");}
-#line 1231 "parser.tab.c"
-    break;
-
-  case 9: /* tipo-especificador: INT  */
-#line 38 "parser.y"
-        { printf("Parsed a tipo-especificador \n") ;}
-#line 1237 "parser.tab.c"
-    break;
-
-  case 10: /* tipo-especificador: VOID  */
-#line 39 "parser.y"
-         { printf("Parsed a tipo-especificador\n"); }
-#line 1243 "parser.tab.c"
-    break;
-
-  case 12: /* fun-declaracao: tipo-especificador ID OP params CP composto-decl  */
-#line 43 "parser.y"
-                                                     { printf("Parsed a fun-declaracao\n"); }
-#line 1249 "parser.tab.c"
-    break;
-
-  case 13: /* params: params-lista  */
-#line 46 "parser.y"
-                 { printf("Parsed a params\n"); }
-#line 1255 "parser.tab.c"
-    break;
-
-  case 14: /* params: VOID  */
-#line 47 "parser.y"
-         { printf("Parsed a params\n"); }
+#line 78 "parser.y"
+                                          { 
+        printf("Parsed a var-declaracao\n"); 
+        (yyval.ast) = new ASTNode("var-declaracao");
+        (yyval.ast)->insertChildren((yyvsp[-5].ast));
+        (yyval.ast)->insertChildren(new ASTNode("ID"));
+        (yyval.ast)->insertChildren(new ASTNode("OB"));
+        (yyval.ast)->insertChildren(new ASTNode("number"));
+        (yyval.ast)->insertChildren(new ASTNode("CB"));
+    }
 #line 1261 "parser.tab.c"
     break;
 
-  case 15: /* params-lista: params-lista COMMA param  */
-#line 50 "parser.y"
-                             { printf("Parsed a params-lista\n"); }
-#line 1267 "parser.tab.c"
+  case 9: /* tipo-especificador: INT  */
+#line 89 "parser.y"
+        { 
+        printf("Parsed a tipo-especificador \n") ;
+        (yyval.ast) = new ASTNode("tipo-especificador");
+        (yyval.ast)->insertChildren(new ASTNode("int"));
+    }
+#line 1271 "parser.tab.c"
     break;
 
-  case 16: /* params-lista: param  */
-#line 51 "parser.y"
-          { printf("Parsed a params-lista\n"); }
-#line 1273 "parser.tab.c"
+  case 10: /* tipo-especificador: VOID  */
+#line 94 "parser.y"
+         { 
+        printf("Parsed a tipo-especificador \n") ;
+        (yyval.ast) = new ASTNode("tipo-especificador");
+        (yyval.ast)->insertChildren(new ASTNode("void"));
+    }
+#line 1281 "parser.tab.c"
     break;
 
-  case 17: /* param: tipo-especificador ID  */
-#line 54 "parser.y"
-                          { printf("Parsed a param\n"); }
-#line 1279 "parser.tab.c"
+  case 11: /* fun-declaracao: tipo-especificador ID OP params CP composto-decl  */
+#line 102 "parser.y"
+                                                     { 
+        printf("Parsed a fun-declaracao\n"); 
+        (yyval.ast) = new ASTNode("fun-declaracao");
+        (yyval.ast)->insertChildren((yyvsp[-5].ast));
+        (yyval.ast)->insertChildren(new ASTNode("ID"));
+        (yyval.ast)->insertChildren(new ASTNode("op"));
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("cp"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1296 "parser.tab.c"
     break;
 
-  case 18: /* param: tipo-especificador ID OB CB  */
-#line 55 "parser.y"
-                                { printf("Parsed a param\n"); }
-#line 1285 "parser.tab.c"
+  case 12: /* params: params-lista  */
+#line 114 "parser.y"
+                 { 
+        printf("Parsed a params\n"); 
+        (yyval.ast) = new ASTNode("params");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1306 "parser.tab.c"
     break;
 
-  case 19: /* composto-decl: OCB local-declaracoes statement-lista CCB  */
-#line 58 "parser.y"
-                                              { printf("Parsed a composto-decl\n"); }
-#line 1291 "parser.tab.c"
-    break;
-
-  case 20: /* local-declaracoes: local-declaracoes var-declaracao  */
-#line 61 "parser.y"
-                                     { printf("Parsed a local-declaracoes\n"); }
-#line 1297 "parser.tab.c"
-    break;
-
-  case 22: /* local-declaracoes: %empty  */
-#line 62 "parser.y"
-                  { /* This is the base case for recursion */ }
-#line 1303 "parser.tab.c"
-    break;
-
-  case 23: /* statement-lista: statement-lista statement  */
-#line 65 "parser.y"
-                              { printf("Parsed a statement-lista\n"); }
-#line 1309 "parser.tab.c"
-    break;
-
-  case 25: /* statement-lista: %empty  */
-#line 66 "parser.y"
-                  { /* This is the base case for recursion */ }
+  case 13: /* params: %empty  */
+#line 119 "parser.y"
+                { 
+        printf("Parsed a params\n"); 
+        (yyval.ast) = new ASTNode("params");
+        }
 #line 1315 "parser.tab.c"
     break;
 
-  case 26: /* statement: expressao-decl  */
-#line 69 "parser.y"
-                   { printf("Parsed a statement\n"); }
-#line 1321 "parser.tab.c"
-    break;
-
-  case 27: /* statement: composto-decl  */
-#line 70 "parser.y"
-                  { printf("Parsed a statement\n"); }
+  case 14: /* params-lista: params-lista COMMA param  */
+#line 125 "parser.y"
+                             { 
+        printf("Parsed a params-lista\n"); 
+        (yyval.ast) = new ASTNode("params-lista");
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("comma"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
 #line 1327 "parser.tab.c"
     break;
 
-  case 28: /* statement: selecao-decl  */
-#line 71 "parser.y"
-                 { printf("Parsed a statement\n"); }
-#line 1333 "parser.tab.c"
+  case 15: /* params-lista: param  */
+#line 132 "parser.y"
+          { 
+        printf("Parsed a params-lista\n"); 
+        (yyval.ast) = new ASTNode("params-lista");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1337 "parser.tab.c"
     break;
 
-  case 29: /* statement: iteracao-decl  */
-#line 72 "parser.y"
-                  { printf("Parsed a statement\n"); }
-#line 1339 "parser.tab.c"
+  case 16: /* param: tipo-especificador ID  */
+#line 139 "parser.y"
+                          { 
+        printf("Parsed a param\n"); 
+        (yyval.ast) = new ASTNode("param");
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren(new ASTNode("ID"));
+    }
+#line 1348 "parser.tab.c"
     break;
 
-  case 30: /* statement: retorno-decl  */
-#line 73 "parser.y"
-                 { printf("Parsed a statement\n"); }
-#line 1345 "parser.tab.c"
+  case 17: /* param: tipo-especificador ID OB CB  */
+#line 145 "parser.y"
+                                { 
+        printf("Parsed a param\n"); 
+        (yyval.ast) = new ASTNode("param");
+        (yyval.ast)->insertChildren((yyvsp[-3].ast));
+        (yyval.ast)->insertChildren(new ASTNode("ID"));
+        (yyval.ast)->insertChildren(new ASTNode("OB"));
+        (yyval.ast)->insertChildren(new ASTNode("CB"));
+    }
+#line 1361 "parser.tab.c"
     break;
 
-  case 32: /* expressao-decl: expressao PV  */
-#line 76 "parser.y"
-                 { printf("Parsed a expressao-decl\n"); }
-#line 1351 "parser.tab.c"
+  case 18: /* composto-decl: OCB local-declaracoes statement-lista CCB  */
+#line 155 "parser.y"
+                                              { 
+        printf("Parsed a composto-decl\n"); 
+        (yyval.ast) = new ASTNode("composto-decl");
+        (yyval.ast)->insertChildren(new ASTNode("OCB"));
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren(new ASTNode("CCB"));
+    }
+#line 1374 "parser.tab.c"
     break;
 
-  case 33: /* expressao-decl: PV  */
-#line 77 "parser.y"
-       { printf("Parsed a expressao-decl\n"); }
-#line 1357 "parser.tab.c"
+  case 19: /* local-declaracoes: local-declaracoes var-declaracao  */
+#line 165 "parser.y"
+                                     { 
+        printf("Parsed a local-declaracoes\n"); 
+        (yyval.ast) = new ASTNode("local-declaracoes");
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));    
+    }
+#line 1385 "parser.tab.c"
     break;
 
-  case 34: /* selecao-decl: IF OP expressao CP statement  */
-#line 80 "parser.y"
-                                 { printf("Parsed a selecao-decl\n"); }
-#line 1363 "parser.tab.c"
+  case 20: /* local-declaracoes: %empty  */
+#line 171 "parser.y"
+                  {         
+        printf("Parsed a local-declaracoes\n"); 
+        (yyval.ast) = new ASTNode("local-declaracoes");
+    }
+#line 1394 "parser.tab.c"
     break;
 
-  case 35: /* selecao-decl: IF OP expressao CP statement ELSE statement  */
-#line 81 "parser.y"
-                                                { printf("Parsed a selecao-decl\n"); }
-#line 1369 "parser.tab.c"
-    break;
-
-  case 36: /* iteracao-decl: WHILE OP expressao CP statement  */
-#line 84 "parser.y"
-                                    { printf("Parsed a iteracao-decl\n"); }
-#line 1375 "parser.tab.c"
-    break;
-
-  case 37: /* retorno-decl: RETURN PV  */
-#line 87 "parser.y"
-              { printf("Parsed a retorno-decl\n"); }
-#line 1381 "parser.tab.c"
-    break;
-
-  case 38: /* retorno-decl: RETURN expressao  */
-#line 88 "parser.y"
-                     { printf("Parsed a retorno-decl\n"); }
-#line 1387 "parser.tab.c"
-    break;
-
-  case 39: /* expressao: var EQUAL expressao  */
-#line 91 "parser.y"
-                        { printf("Parsed a expressao\n"); }
-#line 1393 "parser.tab.c"
-    break;
-
-  case 40: /* expressao: simples-expressao  */
-#line 92 "parser.y"
-                      { printf("Parsed a expressao\n"); }
-#line 1399 "parser.tab.c"
-    break;
-
-  case 41: /* var: ID  */
-#line 95 "parser.y"
-       { printf("Parsed a var\n"); }
+  case 21: /* statement-lista: statement-lista statement  */
+#line 177 "parser.y"
+                              { 
+        printf("Parsed a statement-lista\n"); 
+        (yyval.ast) = new ASTNode("statement-lista");
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));  
+    }
 #line 1405 "parser.tab.c"
     break;
 
-  case 42: /* var: ID OB expressao CB  */
-#line 96 "parser.y"
-                       { printf("Parsed a var\n"); }
-#line 1411 "parser.tab.c"
+  case 22: /* statement-lista: %empty  */
+#line 183 "parser.y"
+                  { 
+        printf("Parsed a statement-lista\n"); 
+        (yyval.ast) = new ASTNode("statement-lista");
+     }
+#line 1414 "parser.tab.c"
     break;
 
-  case 43: /* simples-expressao: soma-expressao RELOP soma-expressao  */
-#line 99 "parser.y"
-                                        { printf("Parsed a simplex-exmpressao\n"); }
-#line 1417 "parser.tab.c"
+  case 23: /* statement: expressao-decl  */
+#line 189 "parser.y"
+                   { 
+        printf("Parsed a statement\n"); 
+        (yyval.ast) = new ASTNode("statement");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1424 "parser.tab.c"
     break;
 
-  case 44: /* simples-expressao: soma-expressao  */
-#line 100 "parser.y"
-                   { printf("Parsed a simples-expressao\n"); }
-#line 1423 "parser.tab.c"
+  case 24: /* statement: composto-decl  */
+#line 194 "parser.y"
+                  { 
+        printf("Parsed a statement\n"); 
+        (yyval.ast) = new ASTNode("statement");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1434 "parser.tab.c"
     break;
 
-  case 46: /* soma-expressao: soma-expressao soma termo  */
-#line 104 "parser.y"
-                              { printf("Parsed a soma-expressao\n"); }
-#line 1429 "parser.tab.c"
+  case 25: /* statement: selecao-decl  */
+#line 199 "parser.y"
+                 { 
+        printf("Parsed a statement\n"); 
+        (yyval.ast) = new ASTNode("statement");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1444 "parser.tab.c"
     break;
 
-  case 47: /* soma-expressao: termo  */
-#line 105 "parser.y"
-          { printf("Parsed a soma-expressao\n"); }
-#line 1435 "parser.tab.c"
+  case 26: /* statement: iteracao-decl  */
+#line 204 "parser.y"
+                  { 
+        printf("Parsed a statement\n"); 
+        (yyval.ast) = new ASTNode("statement");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1454 "parser.tab.c"
     break;
 
-  case 48: /* soma: PLUS  */
-#line 108 "parser.y"
-         { printf("Parsed a soma\n"); }
-#line 1441 "parser.tab.c"
+  case 27: /* statement: retorno-decl  */
+#line 209 "parser.y"
+                 { 
+        printf("Parsed a statement\n"); 
+        (yyval.ast) = new ASTNode("statement");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1464 "parser.tab.c"
     break;
 
-  case 49: /* soma: MINUS  */
-#line 109 "parser.y"
-          { printf("Parsed a subtracao\n"); }
-#line 1447 "parser.tab.c"
+  case 28: /* expressao-decl: expressao PV  */
+#line 216 "parser.y"
+                 { 
+        printf("Parsed a expressao-decl\n"); 
+        (yyval.ast) = new ASTNode("expressao-decl");
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+    }
+#line 1474 "parser.tab.c"
     break;
 
-  case 50: /* termo: termo mult fator  */
-#line 112 "parser.y"
-                     { printf("Parsed a termo\n"); }
-#line 1453 "parser.tab.c"
-    break;
-
-  case 51: /* termo: fator  */
-#line 113 "parser.y"
-          { printf("Parsed a termo\n"); }
-#line 1459 "parser.tab.c"
-    break;
-
-  case 52: /* mult: TIMES  */
-#line 116 "parser.y"
-          { printf("Parsed a mult\n"); }
-#line 1465 "parser.tab.c"
-    break;
-
-  case 53: /* mult: DIV  */
-#line 117 "parser.y"
-        { printf("Parsed a div\n"); }
-#line 1471 "parser.tab.c"
-    break;
-
-  case 54: /* fator: OP expressao CP  */
-#line 120 "parser.y"
-                    { printf("Parsed a fator\n"); }
-#line 1477 "parser.tab.c"
-    break;
-
-  case 55: /* fator: var  */
-#line 121 "parser.y"
-        { printf("Parsed a fator\n"); }
+  case 29: /* expressao-decl: PV  */
+#line 221 "parser.y"
+       { 
+        printf("Parsed a expressao-decl\n"); 
+        (yyval.ast) = new ASTNode("expressao-decl");
+    }
 #line 1483 "parser.tab.c"
     break;
 
-  case 56: /* fator: ativacao  */
-#line 122 "parser.y"
-             { printf("Parsed a fator\n"); }
-#line 1489 "parser.tab.c"
+  case 30: /* selecao-decl: IF OP expressao CP statement  */
+#line 227 "parser.y"
+                                 { 
+        printf("Parsed a selecao-decl\n"); 
+        (yyval.ast) = new ASTNode("selecao-decl");
+        (yyval.ast)->insertChildren(new ASTNode("IF"));
+        (yyval.ast)->insertChildren(new ASTNode("OP"));
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("CP"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1497 "parser.tab.c"
     break;
 
-  case 57: /* fator: NUMBER  */
-#line 123 "parser.y"
-           { printf("Parsed a fator\n"); }
-#line 1495 "parser.tab.c"
-    break;
-
-  case 58: /* ativacao: ID OP args CP  */
-#line 126 "parser.y"
-                  { printf("Parsed a ativacao\n"); }
-#line 1501 "parser.tab.c"
-    break;
-
-  case 59: /* args: arg-lista  */
-#line 129 "parser.y"
-              { printf("Parsed a args\n"); }
-#line 1507 "parser.tab.c"
-    break;
-
-  case 60: /* args: %empty  */
-#line 130 "parser.y"
-                  { /* This is the base case for recursion */ }
+  case 31: /* selecao-decl: IF OP expressao CP statement ELSE statement  */
+#line 236 "parser.y"
+                                                { 
+        printf("Parsed a selecao-decl\n"); 
+        (yyval.ast) = new ASTNode("selecao-decl");
+        (yyval.ast)->insertChildren(new ASTNode("IF"));
+        (yyval.ast)->insertChildren(new ASTNode("OP"));
+        (yyval.ast)->insertChildren((yyvsp[-4].ast));
+        (yyval.ast)->insertChildren(new ASTNode("CP"));
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("ELSE"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
 #line 1513 "parser.tab.c"
     break;
 
-  case 61: /* arg-lista: arg-lista COMMA expressao  */
-#line 132 "parser.y"
-                              { printf("Parsed a arg-lista\n"); }
-#line 1519 "parser.tab.c"
+  case 32: /* iteracao-decl: WHILE OP expressao CP statement  */
+#line 249 "parser.y"
+                                    { 
+        printf("Parsed a iteracao-decl\n"); 
+        (yyval.ast) = new ASTNode("iteracao-decl");
+        (yyval.ast)->insertChildren(new ASTNode("WHILE"));
+        (yyval.ast)->insertChildren(new ASTNode("OP"));
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("CP"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1527 "parser.tab.c"
     break;
 
-  case 62: /* arg-lista: expressao  */
-#line 133 "parser.y"
-              { printf("Parsed a arg-lista\n"); }
-#line 1525 "parser.tab.c"
+  case 33: /* retorno-decl: RETURN PV  */
+#line 260 "parser.y"
+              { 
+        printf("Parsed a retorno-decl\n"); 
+        (yyval.ast) = new ASTNode("retorno-decl");
+        (yyval.ast)->insertChildren(new ASTNode("RETURN"));
+    }
+#line 1537 "parser.tab.c"
+    break;
+
+  case 34: /* retorno-decl: RETURN expressao  */
+#line 265 "parser.y"
+                     { 
+        printf("Parsed a retorno-decl\n"); 
+        (yyval.ast) = new ASTNode("retorno-decl");
+        (yyval.ast)->insertChildren(new ASTNode("RETURN"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1548 "parser.tab.c"
+    break;
+
+  case 35: /* expressao: var EQUAL expressao  */
+#line 273 "parser.y"
+                        { 
+        printf("Parsed a expressao\n"); 
+        (yyval.ast) = new ASTNode("expressao");
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("EQUAL"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));    
+    }
+#line 1560 "parser.tab.c"
+    break;
+
+  case 36: /* expressao: simples-expressao  */
+#line 280 "parser.y"
+                      { 
+        printf("Parsed a expressao\n"); 
+        (yyval.ast) = new ASTNode("expressao");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1570 "parser.tab.c"
+    break;
+
+  case 37: /* var: ID  */
+#line 287 "parser.y"
+       { 
+        printf("Parsed a var\n"); 
+        (yyval.ast) = new ASTNode("var");
+        (yyval.ast)->insertChildren(new ASTNode("ID"));    
+    }
+#line 1580 "parser.tab.c"
+    break;
+
+  case 38: /* var: ID OB expressao CB  */
+#line 292 "parser.y"
+                       { 
+        printf("Parsed a var\n"); 
+        (yyval.ast) = new ASTNode("var");
+        (yyval.ast)->insertChildren(new ASTNode("ID"));    
+        (yyval.ast)->insertChildren(new ASTNode("OB"));
+        (yyval.ast)->insertChildren((yyvsp[-1].ast)); 
+        (yyval.ast)->insertChildren(new ASTNode("CB"));  
+    }
+#line 1593 "parser.tab.c"
+    break;
+
+  case 39: /* simples-expressao: soma-expressao RELOP soma-expressao  */
+#line 302 "parser.y"
+                                        { 
+        printf("Parsed a simplex-exmpressao\n"); 
+        (yyval.ast) = new ASTNode("simples-expressao");
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("RELOP"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1605 "parser.tab.c"
+    break;
+
+  case 40: /* simples-expressao: soma-expressao  */
+#line 309 "parser.y"
+                   { 
+        printf("Parsed a simplex-exmpressao\n"); 
+        (yyval.ast) = new ASTNode("simples-expressao");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1615 "parser.tab.c"
+    break;
+
+  case 42: /* soma-expressao: soma-expressao soma termo  */
+#line 317 "parser.y"
+                              { 
+        printf("Parsed a soma-expressao\n"); 
+        (yyval.ast) = new ASTNode("soma-expressao");
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1627 "parser.tab.c"
+    break;
+
+  case 43: /* soma-expressao: termo  */
+#line 324 "parser.y"
+          { 
+        printf("Parsed a soma-expressao\n"); 
+        (yyval.ast) = new ASTNode("soma-expressao");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1637 "parser.tab.c"
+    break;
+
+  case 44: /* soma: PLUS  */
+#line 331 "parser.y"
+         { 
+        printf("Parsed a soma\n"); 
+        (yyval.ast) = new ASTNode("soma");
+        (yyval.ast)->insertChildren(new ASTNode("PLUS"));    
+    }
+#line 1647 "parser.tab.c"
+    break;
+
+  case 45: /* soma: MINUS  */
+#line 336 "parser.y"
+          { 
+        printf("Parsed a soma\n"); 
+        (yyval.ast) = new ASTNode("soma");
+        (yyval.ast)->insertChildren(new ASTNode("MINUS"));    
+    }
+#line 1657 "parser.tab.c"
+    break;
+
+  case 46: /* termo: termo mult fator  */
+#line 343 "parser.y"
+                     { 
+        printf("Parsed a termo\n"); 
+        (yyval.ast) = new ASTNode("termo");
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1669 "parser.tab.c"
+    break;
+
+  case 47: /* termo: fator  */
+#line 350 "parser.y"
+          { 
+        printf("Parsed a termo\n"); 
+        (yyval.ast) = new ASTNode("termo");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1679 "parser.tab.c"
+    break;
+
+  case 48: /* mult: TIMES  */
+#line 357 "parser.y"
+          { 
+        printf("Parsed a mult\n"); 
+        (yyval.ast) = new ASTNode("mult");
+        (yyval.ast)->insertChildren(new ASTNode("TIMES"));    
+    }
+#line 1689 "parser.tab.c"
+    break;
+
+  case 49: /* mult: DIV  */
+#line 362 "parser.y"
+        { 
+        printf("Parsed a div\n"); 
+        (yyval.ast) = new ASTNode("div");
+        (yyval.ast)->insertChildren(new ASTNode("DIV"));    
+    }
+#line 1699 "parser.tab.c"
+    break;
+
+  case 50: /* fator: OP expressao CP  */
+#line 369 "parser.y"
+                    { 
+        printf("Parsed a fator\n"); 
+        (yyval.ast) = new ASTNode("fator");
+        (yyval.ast)->insertChildren(new ASTNode("OP"));
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren(new ASTNode("CP"));
+    }
+#line 1711 "parser.tab.c"
+    break;
+
+  case 51: /* fator: var  */
+#line 376 "parser.y"
+        { 
+        printf("Parsed a fator\n"); 
+        (yyval.ast) = new ASTNode("fator");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1721 "parser.tab.c"
+    break;
+
+  case 52: /* fator: ativacao  */
+#line 381 "parser.y"
+             { 
+        printf("Parsed a fator\n"); 
+        (yyval.ast) = new ASTNode("fator");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1731 "parser.tab.c"
+    break;
+
+  case 53: /* fator: NUMBER  */
+#line 386 "parser.y"
+           { 
+        printf("Parsed a fator\n"); 
+        (yyval.ast) = new ASTNode("fator");
+        (yyval.ast)->insertChildren(new ASTNode("NUMBER"));
+    }
+#line 1741 "parser.tab.c"
+    break;
+
+  case 54: /* ativacao: ID OP args CP  */
+#line 393 "parser.y"
+                  { 
+        printf("Parsed a ativacao\n"); 
+        (yyval.ast) = new ASTNode("ativacao");
+        (yyval.ast)->insertChildren(new ASTNode("ID"));
+        (yyval.ast)->insertChildren(new ASTNode("OP"));
+        (yyval.ast)->insertChildren((yyvsp[-1].ast));
+        (yyval.ast)->insertChildren(new ASTNode("CP"));    
+    }
+#line 1754 "parser.tab.c"
+    break;
+
+  case 55: /* args: arg-lista  */
+#line 403 "parser.y"
+              { 
+        printf("Parsed a args\n"); 
+        (yyval.ast) = new ASTNode("args");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1764 "parser.tab.c"
+    break;
+
+  case 56: /* args: %empty  */
+#line 408 "parser.y"
+                  { 
+        printf("Parsed a args\n"); 
+        (yyval.ast) = new ASTNode("args");
+     }
+#line 1773 "parser.tab.c"
+    break;
+
+  case 57: /* arg-lista: arg-lista COMMA expressao  */
+#line 413 "parser.y"
+                              { 
+        printf("Parsed a arg-lista\n"); 
+        (yyval.ast) = new ASTNode("arg-lista");
+        (yyval.ast)->insertChildren((yyvsp[-2].ast));
+        (yyval.ast)->insertChildren(new ASTNode("COMMA"));
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1785 "parser.tab.c"
+    break;
+
+  case 58: /* arg-lista: expressao  */
+#line 420 "parser.y"
+              { 
+        printf("Parsed a arg-lista\n"); 
+        (yyval.ast) = new ASTNode("arg-lista");
+        (yyval.ast)->insertChildren((yyvsp[0].ast));
+    }
+#line 1795 "parser.tab.c"
     break;
 
 
-#line 1529 "parser.tab.c"
+#line 1799 "parser.tab.c"
 
       default: break;
     }
@@ -1718,6 +1988,6 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 134 "parser.y"
+#line 425 "parser.y"
 
 
