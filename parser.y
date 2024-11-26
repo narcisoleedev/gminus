@@ -40,11 +40,9 @@
 
 programa:   
     declaracao-lista YYEOF{ 
-        //printf("Parsed a programa\n"); 
         $$ = new ASTNode("programa");
         $$->insertChildren($1);
         AST* tree = new AST($$);
-        //printf("\n");
         tree->printTree();
     }
 
