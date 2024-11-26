@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 12 "parser.y"
+#line 13 "parser.y"
 
     #ifndef __AST_HPP_INCLUDED__
     #define __AST_HPP_INCLUDED__
@@ -64,14 +64,14 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     NUMBER = 258,                  /* NUMBER  */
-    RELOP = 259,                   /* RELOP  */
-    INT = 260,                     /* INT  */
-    VOID = 261,                    /* VOID  */
-    IF = 262,                      /* IF  */
-    ELSE = 263,                    /* ELSE  */
-    RETURN = 264,                  /* RETURN  */
-    WHILE = 265,                   /* WHILE  */
-    ID = 266,                      /* ID  */
+    ID = 259,                      /* ID  */
+    RELOP = 260,                   /* RELOP  */
+    INT = 261,                     /* INT  */
+    VOID = 262,                    /* VOID  */
+    IF = 263,                      /* IF  */
+    ELSE = 264,                    /* ELSE  */
+    RETURN = 265,                  /* RETURN  */
+    WHILE = 266,                   /* WHILE  */
     FOR = 267,                     /* FOR  */
     PLUS = 268,                    /* PLUS  */
     MINUS = 269,                   /* MINUS  */
@@ -96,12 +96,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 19 "parser.y"
+#line 20 "parser.y"
 
     ASTNode* ast;
-    int name;
+    int intval;
+    char* strval;
 
-#line 105 "parser.tab.h"
+#line 106 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -1,5 +1,9 @@
-while (i<4)
-{
-    print(4);
-    i = i + 1;
+void main(void){
+    int y;
+    int penis[4];
+    if(A[j] >= x)
+    {
+        int z;
+    }
+    y = 4 + 5;
 }

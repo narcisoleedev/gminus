@@ -20,10 +20,10 @@ int main(int argc, char *argv[]){
         stringstream buffer;
         buffer << file.rdbuf(); 
         std::string fileContent = buffer.str();
-        cout << "LEX TABLE" << endl;
-        cout << "ROW|LEX|TOKEN|ATTRIBUTE" << endl;
+        //cout << "LEX TABLE" << endl;
+        //cout << "ROW|LEX|TOKEN|ATTRIBUTE" << endl;
         for (Token token: getTokens(fileContent)) {
-            cout << "Row:" << token.line << "|" << token.lex << "|" << token.typeLex << "|" << token.attr << "|" << std::endl;
+            //cout << "Row:" << token.line << "|" << token.lex << "|" << token.typeLex << "|" << token.attr << "|" << std::endl;
             c++;
         }
     } else {

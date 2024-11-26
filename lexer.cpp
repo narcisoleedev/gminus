@@ -304,12 +304,21 @@ int yylex(){
         std::string tokenLex = tokenList[index-1].lex;
         cRow = tokenList[index-1].line;
         if (tokenType == "number") {
+            yylval.intval = stoi(tokenLex);
             return NUMBER;
 
         } else if (tokenType == "relop") {
+            char* cstr = new char[tokenLex.size() + 1];
+            std::copy(tokenLex.begin(), tokenLex.end(), cstr);
+            cstr[tokenLex.size()] = '\0'; 
+            yylval.strval = cstr;
             return RELOP;
 
         } else if (tokenType == "id") {
+            char* cstr = new char[tokenLex.size() + 1];
+            std::copy(tokenLex.begin(), tokenLex.end(), cstr);
+            cstr[tokenLex.size()] = '\0'; 
+            yylval.strval = cstr;
             return ID;
 
         } else if (tokenType == "symbol") {

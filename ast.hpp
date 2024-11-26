@@ -24,12 +24,10 @@ class AST{
     AST (ASTNode* root){
         this->root = root;
     }
+
     void printNode(int level, ASTNode* n) {
-        // Indentar com base no nível
         for (int i = 0; i < level; i++) cout << "  ";
         cout << n->value << endl;
-
-        //Recursivamente exibir os filhos
         for (ASTNode* child : n->children) {
             if (child) printNode(level + 1, child);
         }
