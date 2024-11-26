@@ -4,6 +4,7 @@
 #include <cctype>
 #include <locale>
 #include "lexer.hpp"
+#include "parser.tab.h"
 
 int row = 0;
 
@@ -74,6 +75,7 @@ std::vector<string> getSymbolTable(){
     return symbolTable;
 }
 
+std::vector<Token> tokenList;
 std::vector<Token> getTokens(string& file){
 
     std::vector<Token> tokens;
@@ -161,12 +163,12 @@ std::vector<Token> getTokens(string& file){
 
             string lex(1, file[i]);
             if (iswhitespace(file[i]) == 1) {
-                Token token = Token(lex, "", "", row);
-                tokens.push_back(token);
+                //Token token = Token(lex, "", "", row);
+                //tokens.push_back(token);
 
             } else if (iswhitespace(file[i]) == 2) {
-                Token token = Token("\\n", "", "", row);
-                tokens.push_back(token);
+                //Token token = Token("\\n", "", "", row);
+                //tokens.push_back(token);
                 row++; 
             }
 
@@ -179,22 +181,22 @@ std::vector<Token> getTokens(string& file){
             }    
 
             if(lex=="//"){ //one-file comment
-                Token token = Token(lex, "symbol", "", row);
-                tokens.push_back(token);
+                //Token token = Token(lex, "symbol", "", row);
+                //tokens.push_back(token);
                 while (i < file.size() && file[i] != '\n') {
                     i++;
                 }
                 row++;
 
             } else if (lex == "/*") {
-                Token token = Token(lex, "symbol", "", row);
-                tokens.push_back(token);
+                //Token token = Token(lex, "symbol", "", row);
+                //tokens.push_back(token);
 
                 bool closed = false;
                 while (i < file.size()) {
                     if (i + 1 < file.size() && file[i] == '*' && file[i + 1] == '/') {
-                        Token token = Token("*/", "symbol", "", row);
-                        tokens.push_back(token);
+                        //Token token = Token("*/", "symbol", "", row);
+                        //tokens.push_back(token);
                         i++;
                         closed = true;
                         break;
@@ -261,6 +263,9 @@ std::vector<Token> getTokens(string& file){
                 } else if (lex=="="){
                     Token token = Token(lex, "symbol", "", row);
                     tokens.push_back(token);
+                } else if (lex==","){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
                 } else {
 
                     if(lex.length()==2){
@@ -280,5 +285,95 @@ std::vector<Token> getTokens(string& file){
             }
         }
     }
+    tokenList = tokens;
     return tokens;
 } 
+
+//TRANSFORMA NOSSO LEX EM UM LEX LEGÍVEL PELO BISON
+
+int cRow = 1;
+int yylineo () {
+    return cRow+1;
+}
+int index = 0;
+int yylex(){
+
+    if(index<tokenList.size()){
+        index++;
+        std::string tokenType = tokenList[index-1].typeLex;
+        std::string tokenLex = tokenList[index-1].lex;
+        cRow = tokenList[index-1].line;
+        if (tokenType == "number") {
+            yylval.intval = stoi(tokenLex);
+            return NUMBER;
+
+        } else if (tokenType == "relop") {
+            char* cstr = new char[tokenLex.size() + 1];
+            std::copy(tokenLex.begin(), tokenLex.end(), cstr);
+            cstr[tokenLex.size()] = '\0'; 
+            yylval.strval = cstr;
+            return RELOP;
+
+        } else if (tokenType == "id") {
+            char* cstr = new char[tokenLex.size() + 1];
+            std::copy(tokenLex.begin(), tokenLex.end(), cstr);
+            cstr[tokenLex.size()] = '\0'; 
+            yylval.strval = cstr;
+            return ID;
+
+        } else if (tokenType == "symbol") {
+            //um símbolo pode ser +, -, *, /, ;, ,, (, ), [, ], {, }, =
+            if(tokenLex == "+"){
+                return PLUS;
+            } else if(tokenLex == "-"){
+                return MINUS;
+            } else if(tokenLex == "*"){
+                return TIMES;
+            } else if(tokenLex == "/"){
+                return DIV;
+            } else if(tokenLex == ";"){
+                return PV;
+            } else if(tokenLex == ","){
+                return COMMA;
+            } else if(tokenLex == "("){
+                return OP;
+            } else if(tokenLex == ")"){
+                return CP;
+            } else if(tokenLex == "["){
+                return OB;
+            } else if(tokenLex == "]"){
+                return CB;
+            } else if(tokenLex == "{"){
+                return OCB;
+            } else if(tokenLex == "}"){
+                return CCB;
+            } else if(tokenLex == "="){
+                return EQUAL;
+            } else {
+                return VEJODEPOIS;
+            }
+
+        } else {
+            if(tokenLex == "int"){
+                return INT;
+            } else if (tokenLex == "void"){
+                return VOID;
+            } else if(tokenLex == "if"){
+                return IF;
+            } else if(tokenLex == "else"){
+                return ELSE;
+            } else if(tokenLex == "return"){
+                return RETURN;
+            } else if(tokenLex == "while"){
+                return WHILE;
+            } else if(tokenLex == "for"){
+                return FOR;
+            } else {
+                return ERROR;
+            }
+        }
+    } else {
+        return YYEOF;
+    }
+    
+}

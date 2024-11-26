@@ -5,17 +5,6 @@
 
 using namespace std;
 
-/*enum class tp{
-    ID,
-    KEYWORD,
-    NUM, 
-    SYMBOL,
-    BLANK,
-    COMMENT,
-    ENDOFFILE,
-    ERROR
-};*/
-
 class Token{
 
     public:
