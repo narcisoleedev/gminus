@@ -1,0 +1,70 @@
+Tirar:
+    declaracao-lista
+    declaracao
+
+* é opcional, # é multiplo
+Regras:
+    fun-declaracao
+        tipo
+        ID(<nome>)
+        params
+        statement-lista 
+
+    var-declaracao
+        tipo
+        ID(<nome>)
+        *NUM
+
+    tipo
+        int
+        void
+
+    params
+        #param|void
+
+    param
+        tipo
+        ID(<nome>)
+        *vector
+
+    composto-declaracao
+        *local-declaracoes
+        *statement-lista 
+
+    local-declaracoes
+        *local-declaracoes
+        var-declaracao 
+
+    statement-lista
+        #statement
+
+    statement
+        expressao|composto-declaracao|if|while|return
+
+    expressao
+        var        |   simples-expressao
+        =          |
+        expressao  |
+
+    simples-expressao
+        AST
+
+    if          
+        expressao 
+        statement  
+        *statement
+
+    while
+        expressao
+        statement
+
+    return
+        *expressao
+    
+
+    
+
+    
+
+    
+
