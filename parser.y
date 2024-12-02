@@ -43,17 +43,19 @@ programa:
         $$ = new ASTNode("programa");
         $$->insertChildren($1);
         AST* tree = new AST($$);
+        tree->transformToAST();
         tree->printTree();
     }
 
 declaracao-lista:
     declaracao-lista declaracao { 
-        //printf("Parsed a declaracao-lista\n"); 
+        //printf("Parsed a declaracao-lista com 2\n"); 
         $$ = new ASTNode("declaracao-lista");
+        $$->insertChildren($1);
         $$->insertChildren($2);
         } |
     declaracao { 
-        //printf("Parsed a declaracao-lista\n"); 
+        //printf("Parsed a declaracao-listacom 1\n"); 
         $$ = new ASTNode("declaracao-lista");
         $$->insertChildren($1);
         } 
@@ -117,9 +119,9 @@ fun-declaracao:
         sprintf(id, "ID(%s)", $2);
         $$->insertChildren(new ASTNode(id));
         free(id);
-        $$->insertChildren(new ASTNode("op"));
+        $$->insertChildren(new ASTNode("OP"));
         $$->insertChildren($4);
-        $$->insertChildren(new ASTNode("cp"));
+        $$->insertChildren(new ASTNode("CP"));
         $$->insertChildren($6);
     }
 
@@ -140,7 +142,7 @@ params-lista:
         //printf("Parsed a params-lista\n"); 
         $$ = new ASTNode("params-lista");
         $$->insertChildren($1);
-        $$->insertChildren(new ASTNode("comma"));
+        $$->insertChildren(new ASTNode("COMMA"));
         $$->insertChildren($3);
     } |
     param { 
@@ -169,6 +171,7 @@ param:
         free(id);
         $$->insertChildren(new ASTNode("OB"));
         $$->insertChildren(new ASTNode("CB"));
+        $$->insertChildren(new ASTNode("vector"));
     }
 
 composto-decl:
