@@ -10,6 +10,7 @@ using namespace std;
 
 int yyparse();
 int yylex();
+AST* yytree();
 
 int main(int argc, char *argv[]){
     ifstream file(argv[1]);
@@ -36,6 +37,10 @@ int main(int argc, char *argv[]){
     //     cout << str << "|" << endl;
     // }
     // cout << "\n";
-    yyparse();
 
+    //yytree só pode ser chamada depois de yyparse
+    AST* ast;
+    yyparse();
+    ast = yytree();
+    ast->printTree();
 }

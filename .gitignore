@@ -1,3 +1,5 @@
 .vscode
 out*.txt
 lexer
+parser.tab.c
+parser.tab.h

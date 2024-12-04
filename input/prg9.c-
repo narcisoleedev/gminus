@@ -10,7 +10,7 @@ void main(void){
     y = 4 + 5;
     teste(j);
 }*/
-void ifTeste(void){
+/*void ifTeste(void){
     4*3+2;
     if(3<=4) return 9;
     if(a*4==b+5){
@@ -21,4 +21,7 @@ void ifTeste(void){
     while(a>4){
         b = b+3;
     }
+};*/
+void a(void){
+    a = 4+2*3*((4)/5);
 }

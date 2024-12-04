@@ -71,11 +71,12 @@ class AST{
             if (
                 node->value == "declaracao-lista" || node->value=="declaracao" || node->value=="params-lista" || 
                 node->value=="local-declaracoes" || node->value=="statement-lista" || node->value=="expressao-decl" || 
-                node->value=="termo" || node->value=="fator" || node->value=="arg-lista" ||
+                (node->value=="termo" && size(node->children) != 3) || node->value=="fator" || node->value=="arg-lista" ||
                 (node->value == "simples-expressao" && size(node->children) != 3) || node->value=="soma" || node->value=="mult"
                 ) {
                 n->children.erase(n->children.begin() + childIndex);
                 n->children.insert(n->children.begin() + childIndex, node->children.begin(), node->children.end());
+                delete(node);
                 continue;
             }
             // Esse if é pra remover folhas desnecessárias da árvore
@@ -84,6 +85,7 @@ class AST{
                 node->value == "CB" || node->value == "COMMA" || node->value == "ELSE"
                 ) {
                 n->children.erase(n->children.begin() + childIndex);
+                delete(node);
                 continue;
             }
             if(node->value == "tipo-especificador") {
@@ -100,9 +102,10 @@ class AST{
     void fixArvore(ASTNode* n){
 
         //Pegar expressao ternaria e colocar o operador no lugar e deixa-la binaria
-        if(n->value == "soma-expressao"){
+        if(n->value == "soma-expressao" || n->value == "termo"){
             if(size(n->children)==3){
                 n->value = n->children[1]->value;
+                delete(n->children[1]);
                 n->children.erase(n->children.begin() + 1);
             }   
         }
@@ -114,11 +117,13 @@ class AST{
             if (child->value=="soma-expressao" && size(child->children) == 1) {
                 n->children.erase(n->children.begin() + childIndex);
                 n->children.insert(n->children.begin() + childIndex, child->children.begin(), child->children.end());   
+                delete(child);
             }
             
             //Tirar statements vazios
             if (child->value=="statement" && size(child->children) == 0) {
                 n->children.erase(n->children.begin() + childIndex);
+                delete(child);
                 continue;
             }
             fixArvore(n->children[childIndex]);

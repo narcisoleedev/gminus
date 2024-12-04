@@ -16,6 +16,17 @@
     #include "ast.hpp"
     #endif
 }
+%code {
+    ASTNode* r;
+    void getRoot(ASTNode* root){
+        r = root;
+    }
+    AST* yytree(){
+        AST* ast = new AST(r);
+        ast->transformToAST();
+        return ast; 
+    }
+}
 
 %union {
     ASTNode* ast;
@@ -42,9 +53,7 @@ programa:
     declaracao-lista YYEOF{ 
         $$ = new ASTNode("programa");
         $$->insertChildren($1);
-        AST* tree = new AST($$);
-        tree->transformToAST();
-        tree->printTree();
+        getRoot($$);
     }
 
 declaracao-lista:
