@@ -1,5 +1,5 @@
 .vscode
-out*.txt
-lexer
+./output/
+./lexer
 parser.tab.c
 parser.tab.h

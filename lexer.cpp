@@ -239,6 +239,9 @@ std::vector<Token> getTokens(string& file){
                 } else if (lex=="*"){
                     Token token = Token(lex, "symbol", "", row);
                     tokens.push_back(token);
+                } else if (lex=="/"){
+                    Token token = Token(lex, "symbol", "", row);
+                    tokens.push_back(token);
                 } else if (lex==";"){
                     Token token = Token(lex, "symbol", "", row);
                     tokens.push_back(token);
