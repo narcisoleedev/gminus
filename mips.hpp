@@ -30,6 +30,7 @@ public:
             string funcName = node->children[1]->value;
             instructions.push_back(funcName + ":");
             generate(node->children[3]);  // Processar corpo da função
+            
         } else if (node->value == "if") {
             string labelElse = generateLabel("else");
             string labelEnd = generateLabel("endif");

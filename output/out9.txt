@@ -1,0 +1,131 @@
+programa
+  fun-declaracao
+    void
+    ID(main)
+    params
+      void
+    composto-decl
+      var-declaracao
+        int
+        ID(x)
+      var-declaracao
+        int
+        ID(y)
+        NUM(3)
+      statement
+        expressao
+          var
+            ID(y)
+            expressao
+              NUM(2)
+          EQUAL
+          expressao
+            PLUS
+              NUM(2)
+              NUM(4)
+      statement
+        expressao
+          var
+            ID(y)
+            expressao
+              NUM(1)
+          EQUAL
+          expressao
+            PLUS
+              div
+                NUM(3)
+                NUM(2)
+              NUM(5)
+      statement
+        expressao
+          var
+            ID(x)
+          EQUAL
+          expressao
+            ativacao
+              ID(input)
+      statement
+        expressao
+          ativacao
+            ID(output)
+            args
+              expressao
+                PLUS
+                  PLUS
+                    PLUS
+                      NUM(4)
+                      TIMES
+                        NUM(5)
+                        NUM(3)
+                    TIMES
+                      var
+                        ID(y)
+                        expressao
+                          NUM(2)
+                      var
+                        ID(y)
+                        expressao
+                          NUM(1)
+                  var
+                    ID(x)
+.data
+x: .word 0
+y: .space 12
+.text
+	jal main
+input:
+	li   $v0, 5
+	syscall
+	jr   $ra
+output:
+	li   $v0, 1
+	syscall
+	li   $v0, 11
+	li   $a0, 10
+	syscall
+	jr   $ra
+main:
+	li $t0, 4
+	li $t1, 2
+	add $s0, $t1, $t0
+	li $t2, 2
+	la $t3, y
+	mul $t2, $t2, 4
+	add $t3, $t2, $t3
+	sw $s0, 0($t3)
+	li $t0, 5
+	li $t1, 2
+	li $t2, 3
+	div $t2, $t1
+	mfhi $s0
+	add $s1, $s0, $t0
+	li $t3, 1
+	la $t4, y
+	mul $t3, $t3, 4
+	add $t4, $t3, $t4
+	sw $s1, 0($t4)
+	jal input
+	sw $v0, x
+	lw $t0, x
+	li $t1, 1
+	la $t2, y
+	mul $t3, $t1, 4
+	add $t3, $t3, $t2
+	lw $s0, 0($t3)
+	li $t3, 2
+	la $t4, y
+	mul $t5, $t3, 4
+	add $t5, $t5, $t4
+	lw $s1, 0($t5)
+	mul $s2, $s1, $s0
+	li $t5, 3
+	li $t6, 5
+	mul $s3, $t6, $t5
+	li $t7, 4
+	add $s4, $t7, $s3
+	add $s5, $s4, $s2
+	add $s6, $s5, $t0
+	move $a0, $s6
+	jal output
+	li $v0, 10
+	syscall
