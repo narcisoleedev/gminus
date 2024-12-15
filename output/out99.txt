@@ -1,6 +1,0 @@
-sw $s1, 0[$t0]
-
-mul $t4, $t0, 4       # Multiply index ($t0) by 4 (word size)
-add $t4, $t4, $s1  
-la $t4, i  
-sw $s1, 0($t4) 
