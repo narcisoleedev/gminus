@@ -45,11 +45,11 @@ int main(int argc, char *argv[]){
     ast = yytree();
     ast->printTree();
     includeInstructions();
-    /*generate(*ast->root);
+    generate(*ast->root);
     for (std::string ins: dotdata) {
         std::cout << ins << endl;
     }
     for (std::string ins: dottext) {
         std::cout << ins << endl;
-    }*/
+    }
 }

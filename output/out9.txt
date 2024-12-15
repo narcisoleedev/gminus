@@ -1,3 +1,90 @@
-Error at line 5: syntax error
-terminate called after throwing an instance of 'std::bad_alloc'
-  what():  std::bad_alloc
+programa
+  var-declaracao
+    int
+    ID(i)
+    NUM(3)
+  fun-declaracao
+    void
+    ID(main)
+    params
+      void
+    composto-decl
+      var-declaracao
+        int
+        ID(x)
+      statement
+        expressao
+          var
+            ID(x)
+          EQUAL
+          expressao
+            PLUS
+              NUM(3)
+              TIMES
+                NUM(3)
+                NUM(4)
+      statement
+        expressao
+          var
+            ID(i)
+            expressao
+              MINUS
+                var
+                  ID(x)
+                NUM(4)
+          EQUAL
+          expressao
+            PLUS
+              PLUS
+                NUM(4)
+                NUM(5)
+              var
+                ID(x)
+      statement
+        expressao
+          ativacao
+            ID(output)
+            args
+              expressao
+                var
+                  ID(x)
+output.data
+i: .space 12
+x: .word 0
+.text
+	jal main
+input:
+	li   $v0, 5
+	syscall
+	jr   $ra
+output:
+	li   $v0, 1
+	syscall
+	li   $v0, 11
+	li   $a0, 10
+	syscall
+	jr   $ra
+main:
+	li $t0, 4
+	li $t1, 3
+	mul $s0, $t1, $t0
+	li $t2, 3
+	add $s1, $t2, $s0
+	sw $s1, x
+	lw $t0, x
+	li $t1, 5
+	li $t2, 4
+	add $s0, $t2, $t1
+	add $s1, $s0, $t0
+	li $t3, 4
+	lw $t4, x
+	sub $s2, $t4, $t3
+	mul $t5, $s2, 4
+	add $t5, $t5, $s1
+	la $t5, i
+	sw $s1, 0($t5)
+	lw $t0, x
+	move $a0, $t0
+	jal output
+	li $v0, 10
+	syscall

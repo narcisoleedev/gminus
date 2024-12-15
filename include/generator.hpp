@@ -29,6 +29,10 @@ string allocateRegisterSM() {
     return "$s" + to_string(regCounterS);
 }
 
+string allocateRegisterSMM() {
+    return "$s" + to_string(regCounterS-1);
+}
+
 void deallocateRegister() {
     regCounter--;
 }
@@ -74,14 +78,36 @@ string generateExpression(ASTNode &node){
     } else if(node.value == "expressao"){
         return generateExpression(*node.children[0]);;
 
+    } else if(node.value == "ativacao"){
+        if(node.children[1]->children.size()>0){ //Ou seja se args tiver filho, tipo tiver args
+            dottext.push_back("\tmove $a0, " + generateExpression(*node.children[1]->children[0]));
+
+        }
+        dottext.push_back("\tjal " + treatIDNUM(node.children[0]->value));
+        cout << treatIDNUM(node.children[0]->value);
+        if(treatIDNUM(node.children[0]->value) == "output"){
+            dottext.push_back("\tli $v0, 10");
+            dottext.push_back("\tsyscall");
+            return "";
+
+        } else if(treatIDNUM(node.children[0]->value) == "input"){
+
+        }
+
     } else if(!node.value.empty() && node.value.at(0) == 'N'){
         dottext.push_back("\tli " + allocateRegisterM() + ", " + to_string(treatNUM(node.value))); 
         return allocateRegister();
 
     } else if(!node.value.empty() && node.value.at(0) == 'v'){
-        dotdata.push_back("\tli " + allocateRegisterM() + ", " + to_string(treatNUM(node.value))); 
-        return allocateRegister();
-    }
+        if(node.children.size() > 1){ //Se for um vetor 
+            dottext.push_back("\tlw " + allocateRegisterM() + ", " + generateExpression(*node.children[1]) + "[" + treatIDNUM(node.children[0]->value) + "]");
+            return allocateRegister(); 
+
+        } else { //Se for um var normal
+            dottext.push_back("\tlw " + allocateRegisterM() + ", " + treatIDNUM(node.children[0]->value));
+            return allocateRegister(); 
+        }
+    } 
 }
 
 void generate(ASTNode &node){
@@ -120,7 +146,17 @@ void generate(ASTNode &node){
         string var;
         if(node.children.size()>2){
             var = treatIDNUM(node.children[0]->children[0]->value);
-            dottext.push_back("\tsw " + generateExpression(*node.children[2]) + ", " + var);  
+            if(node.children[0]->children.size()<=1){
+                dottext.push_back("\tsw " + generateExpression(*node.children[2]) + ", " + var); 
+
+            } else {
+                string registerS = generateExpression(*node.children[2]);
+                string tnumber = generateExpression(*node.children[0]->children[1]);
+                dottext.push_back("\tmul " + allocateRegisterM() + ", " + tnumber + ", 4");
+                dottext.push_back("\tadd " + allocateRegisterM() + ", " + allocateRegisterM() + ", " + registerS);
+                dottext.push_back("\tla " + allocateRegisterM() + ", " + var);
+                dottext.push_back("\tsw " + registerS + ", 0(" + allocateRegisterM() + ")");
+            }
     
         } else {
             generateExpression(*node.children[0]);
