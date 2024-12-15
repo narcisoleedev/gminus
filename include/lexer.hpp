@@ -22,6 +22,5 @@ class Token{
 };
 
 vector<Token> getTokens(string& line); //getTokens
-
 vector<string> getSymbolTable(); //Symbol Table
 

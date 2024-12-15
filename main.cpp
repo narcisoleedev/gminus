@@ -3,8 +3,9 @@
 #include <sstream>
 #include <string>
 
-#include "lexer.hpp"
-#include "ast.hpp"
+#include "./include/lexer.hpp"
+#include "./include/ast.hpp"
+#include "./include/generator.hpp"
 
 using namespace std;
 
@@ -43,4 +44,12 @@ int main(int argc, char *argv[]){
     yyparse();
     ast = yytree();
     ast->printTree();
+    includeInstructions();
+    /*generate(*ast->root);
+    for (std::string ins: dotdata) {
+        std::cout << ins << endl;
+    }
+    for (std::string ins: dottext) {
+        std::cout << ins << endl;
+    }*/
 }

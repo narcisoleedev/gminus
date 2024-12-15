@@ -1,0 +1,25 @@
+programa
+  fun-declaracao
+    void
+    ID(main)
+    params
+      void
+    composto-decl
+      var-declaracao
+        int
+        ID(y)
+        NUM(3)
+      var-declaracao
+        int
+        ID(x)
+      statement
+        expressao
+          var
+            ID(z)
+          EQUAL
+          expressao
+            PLUS
+              PLUS
+                NUM(3)
+                NUM(3)
+              NUM(3)

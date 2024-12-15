@@ -3,8 +3,9 @@
 #include <string>
 #include <cctype>
 #include <locale>
-#include "lexer.hpp"
-#include "parser.tab.h"
+
+#include "../include/lexer.hpp"
+#include "../parser.tab.h"
 
 int row = 0;
 

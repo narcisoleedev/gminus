@@ -13,7 +13,7 @@
 %code requires {
     #ifndef __AST_HPP_INCLUDED__
     #define __AST_HPP_INCLUDED__
-    #include "ast.hpp"
+    #include "./include/ast.hpp"
     #endif
 }
 %code {
