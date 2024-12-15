@@ -100,7 +100,7 @@ class AST{
             childIndex++;
         }
     }
-    //Conserta o soma-expressao e o statement
+    //Conserta o soma-expressao e o statement/args
     void fixArvore(ASTNode* n){
 
         //Pegar expressao ternaria e colocar o operador no lugar e deixa-la binaria
@@ -122,8 +122,8 @@ class AST{
                 delete(child);
             }
             
-            //Tirar statements vazios
-            if (child->value=="statement" && size(child->children) == 0) {
+            //Tirar statements/args vazios 
+            if ((child->value=="statement" || child->value=="args") && size(child->children) == 0) {
                 n->children.erase(n->children.begin() + childIndex);
                 delete(child);
                 continue;

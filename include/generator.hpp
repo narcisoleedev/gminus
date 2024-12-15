@@ -33,6 +33,10 @@ string allocateRegisterSMM() {
     return "$s" + to_string(regCounterS-1);
 }
 
+string allocateRegisterMM() {
+    return "$t" + to_string(regCounter-1);
+}
+
 void deallocateRegister() {
     regCounter--;
 }
@@ -79,19 +83,18 @@ string generateExpression(ASTNode &node){
         return generateExpression(*node.children[0]);;
 
     } else if(node.value == "ativacao"){
-        if(node.children[1]->children.size()>0){ //Ou seja se args tiver filho, tipo tiver args
+        if(node.children.size()>1){ //Ou seja se args tiver filho, tipo tiver args
             dottext.push_back("\tmove $a0, " + generateExpression(*node.children[1]->children[0]));
 
         }
         dottext.push_back("\tjal " + treatIDNUM(node.children[0]->value));
-        cout << treatIDNUM(node.children[0]->value);
         if(treatIDNUM(node.children[0]->value) == "output"){
             dottext.push_back("\tli $v0, 10");
             dottext.push_back("\tsyscall");
             return "";
 
         } else if(treatIDNUM(node.children[0]->value) == "input"){
-
+            return "$v0";
         }
 
     } else if(!node.value.empty() && node.value.at(0) == 'N'){
@@ -100,8 +103,12 @@ string generateExpression(ASTNode &node){
 
     } else if(!node.value.empty() && node.value.at(0) == 'v'){
         if(node.children.size() > 1){ //Se for um vetor 
-            dottext.push_back("\tlw " + allocateRegisterM() + ", " + generateExpression(*node.children[1]) + "[" + treatIDNUM(node.children[0]->value) + "]");
-            return allocateRegister(); 
+            string tnumber = generateExpression(*node.children[1]);
+            dottext.push_back("\tla " + allocateRegister() + ", " + treatIDNUM(node.children[0]->value));
+            dottext.push_back("\tmul " + allocateRegisterM() + ", " + tnumber + ", 4");
+            dottext.push_back("\tadd " + allocateRegisterM() + ", " + allocateRegisterM() + ", " + allocateRegisterMM());
+            dottext.push_back("\tlw " + allocateRegisterSM() + ", 0(" + allocateRegisterM() + ")");
+            return allocateRegisterS(); 
 
         } else { //Se for um var normal
             dottext.push_back("\tlw " + allocateRegisterM() + ", " + treatIDNUM(node.children[0]->value));
@@ -152,9 +159,9 @@ void generate(ASTNode &node){
             } else {
                 string registerS = generateExpression(*node.children[2]);
                 string tnumber = generateExpression(*node.children[0]->children[1]);
-                dottext.push_back("\tmul " + allocateRegisterM() + ", " + tnumber + ", 4");
-                dottext.push_back("\tadd " + allocateRegisterM() + ", " + allocateRegisterM() + ", " + registerS);
                 dottext.push_back("\tla " + allocateRegisterM() + ", " + var);
+                dottext.push_back("\tmul " + tnumber + ", " + tnumber + ", 4");
+                dottext.push_back("\tadd " + allocateRegisterM() + ", " + tnumber + ", " + allocateRegisterM());
                 dottext.push_back("\tsw " + registerS + ", 0(" + allocateRegisterM() + ")");
             }
     

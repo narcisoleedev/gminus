@@ -1,8 +1,8 @@
-int i[3];
-
 void main(void){
     int x;
-    x = 3 + 3 * 4;
-    i[x-4] = 4 + 5 + x;
-    output(x);
+    int y[3];
+    y[2] = 2 + 4;
+    y[1] = 3 / 2 + 5; 
+    x = input();
+    output(4 + 5 * 3 + y[2] * y[1] + x);
 }
