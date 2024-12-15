@@ -1,0 +1,26 @@
+/* Um máximo local pode ser definido como um número dentro de um vetor que é maior que todos
+   os seus vizinhos. */
+
+int localMax(int v[], int length)
+{  int i;
+   i = 0;
+   while (i < length - 1)
+   {  if (v[i] > v[i + 1]) return v[i];
+      i = i + 1;
+   }
+   return v[i + 1];
+}
+
+void main(void)
+{  int i; int length;
+   i = 0;
+   length = input();
+   if (length >= 0)
+   {  int v[length];
+      while (i < length)
+      {  v[i] = input();
+         i = i + 1;
+      }
+      output(localMax(v, length));
+   }
+}

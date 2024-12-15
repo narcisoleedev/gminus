@@ -1,0 +1,18 @@
+/* Jogo de adivinhação! Primeiro um número é escolhido, e depois um segundo usuário
+   tenta adivinhar este número, se ele errar só é relatado se o número é menor (-1) ou maior (1)
+   do que a tentativa. */
+
+void main(void)
+{  int target; int x; int guess;
+   target = input();
+   x = 1;
+   while (x)
+   {  guess = input();
+      if (guess > target) output(1);
+      else
+      {  if (guess < target) output(-1);
+         else output(0);
+      }
+      x = target - guess;
+   }
+}

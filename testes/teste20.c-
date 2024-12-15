@@ -1,0 +1,24 @@
+/* tentar acessar um vetor com indice negativo */
+
+void printReverse(int v[], int length)
+{  int i;
+   i = length - 1;
+   while (i > -5)
+   { output(v[i]);
+     i = i - 1;
+   }
+}
+
+void main(void)
+{  int i; int length;
+   i = 0;
+   length = input();
+   if (length >= 0)
+   {  int v[length];
+      while (i < length)
+      {  v[i] = input();
+         i = i + 1;
+      }
+   }
+   printReverse(v, length);
+}

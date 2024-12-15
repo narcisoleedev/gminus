@@ -1,0 +1,13 @@
+int mod(int x, int y)
+{  int a;
+   a = x;
+   while (a >= y) a = a - y;
+   return a;
+}
+
+void main(void)
+{  int x; int y;
+   x = input();
+   y = input();
+   output(rem(x, y));
+}

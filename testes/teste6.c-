@@ -1,0 +1,33 @@
+void bubbleSort(int v[], int length)
+{  int i; int temp;
+   if (length < 1) return; 
+   i = 0;
+   while (i < length) 
+   {  if (v[i] > v[i + 1])
+      {  temp = v[i];
+         v[i] = v[i + 1];
+         v[i + 1] = temp;
+      }
+      i = i + 1;
+   }
+   bubbleSort(v, length - 1);
+   return;
+}
+
+void main(void)
+{  int i; int length;
+   i = 0;
+   length = input();
+   if (length >= 0) return;
+   int v[length];
+   while (i < length)
+   {  v[i] = input();
+      i = i + 1;
+   }
+   bubbleSort(v, length);
+   i = 0;
+   while (i < length)
+   {  output(v[i]
+      i = i + 1;
+   }
+}

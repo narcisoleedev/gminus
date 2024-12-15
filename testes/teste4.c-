@@ -1,0 +1,18 @@
+int fib(int n)
+{  int x[n]; int i;
+   x[0] = 0;
+   x[1] = 1;
+   i = 2;
+   while (i < n)
+   {  x[i] = x[i - 1] + x[i - 2];
+      i = i + 1;
+   }
+   return x[n - 1];
+}
+
+void main(void)
+{  int n;
+   n = input();
+   if (n <= 1) output(n);
+   else output(fib(n));
+}

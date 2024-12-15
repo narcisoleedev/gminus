@@ -1,0 +1,27 @@
+/* Programa que checa se uma lista é um palindromo. Retorna 0 caso seja falso e 1 caso seja verdadeiro. */
+
+int isPalindrome(int v[], int length)
+{  int i; int j;
+   i = 0;
+   j = length - 1;
+   while (i <= j)
+   {  if (v[i] != v[j]) return 0;
+      i = i + 1;
+      j = j - 1;
+   }
+   return 1;
+}
+
+void main(void)
+{  int i; int length;
+   i = 0;
+   length = input();
+   if (length >= 0)
+   {  int v[length];
+      while (i < length)
+      {  v[i] = input();
+         i = i + 1;
+      }
+      output(isPalindrome(v, length));
+   }
+}

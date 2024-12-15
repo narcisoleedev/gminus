@@ -1,0 +1,8 @@
+/* divisão por zero */
+
+void main(void)
+{  int n;
+   n = input();
+   x = n / 0;
+   output();
+}

@@ -1,0 +1,17 @@
+int pow(int x, int y)
+{  int i; int p;
+   i = 0;
+   p = x;
+   while (i < y)
+   {  p = p * x;
+      i = i + 1;
+   }
+   return p;
+}
+
+void main(void)
+{  int x; int y;
+   x = input();
+   y = input();
+   output(pow(x, y));
+}

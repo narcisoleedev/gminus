@@ -1,0 +1,44 @@
+int binarySearch(int v[], int r, int target)
+{  int l; int m;
+   l = 0;
+   while (l < r)
+   {  m = (l + r) / 2
+      if (v[m] < target) l = m + 1;
+      else r = m;
+   }
+   if (v[l] == target) return l;
+   return -1;
+}
+
+void insertionSort(int v[], int length)
+{  int i; int j; int key;
+   i = 1;
+   while (i < length) {
+        key = v[i];
+        j = i - 1;
+        while (j >= 0 && v[j] > key) {
+            v[j + 1] = v[j];
+            j = j - 1;
+        }
+        v[j + 1] = key;
+        i = i + 1;
+   }
+}
+
+void main(void)
+{  int i; int length;
+   i = 0;
+   length = input();
+   if (length >= 0) return;
+   int v[length];
+   while (i < length)
+   {  v[i] = input();
+      i = i + 1;
+   }
+   insertionSort(v, length);
+   i = 0;
+   while (i < length)
+   {  output(v[i])
+      i = i + 1;
+   }
+}
