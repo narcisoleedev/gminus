@@ -16,7 +16,7 @@ SEMANTIC ANALYSER: [<i>creates nothing actually</i>]
     - Symbol Table (we need to create the symbol table while running the AST): *to be done*
     - Debugger (with line and error type): *to be done*
 
-CODE GENERATOR: [AST -> .asm(MIPS)] progress: 30%
+CODE GENERATOR: [AST -> .asm(MIPS)] progress: 50%
     - Run the AST and generate the code bottom-up;
 
 TO RUN: ```make```

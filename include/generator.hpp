@@ -10,8 +10,9 @@ using namespace std;
 vector<string> dotdata; //.data
 vector<string> dottext; //.text
 unordered_map<string, int> st; //Tabela de Símbolos
-int regCounter;
-int regCounterS;
+int regCounter = 0;
+int regCounterS = 0;
+int whiles = 0;
 
 string allocateRegister() {
     return "$t" + to_string(regCounter++);
@@ -114,7 +115,7 @@ string generateExpression(ASTNode &node){
             dottext.push_back("\tlw " + allocateRegisterM() + ", " + treatIDNUM(node.children[0]->value));
             return allocateRegister(); 
         }
-    } 
+    }
 }
 
 void generate(ASTNode &node){
@@ -148,6 +149,36 @@ void generate(ASTNode &node){
             st[ID] = 0;
             dotdata.push_back(ID + ": .space " + to_string(sizeorvalue*4));  
         }  
+
+    } else if(node.value == "while"){
+        int whileL = whiles++; 
+        dottext.push_back("while" + to_string(whiles-1) + ":");
+        if(node.children[0]->children[0]->value == "=="){
+            dottext.push_back("\tbne " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]) + ", exit" + to_string(whiles-1));
+
+        } else if(node.children[0]->children[0]->value == "!="){
+            dottext.push_back("\tbeq " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]) + ", exit" + to_string(whiles-1));
+
+        } else if(node.children[0]->children[0]->value == "<"){
+            dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+            dottext.push_back("\tbgez " + allocateRegisterSM() + ", exit" + to_string(whileL));
+
+        } else if(node.children[0]->children[0]->value == "<="){
+            dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+            dottext.push_back("\tbgtz " + allocateRegisterSM() + ", exit" + to_string(whileL));
+
+        } else if(node.children[0]->children[0]->value == ">"){
+            dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+            dottext.push_back("\tblez " + allocateRegisterSM() + ", exit" + to_string(whileL));
+
+        } else if(node.children[0]->children[0]->value == ">="){
+            dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+            dottext.push_back("\tbltz " + allocateRegisterSM() + ", exit" + to_string(whileL));
+
+        }
+        generate(*node.children[1]);
+        dottext.push_back("\tj while" + to_string(whileL));
+        dottext.push_back("exit" + to_string(whileL) + ":");
 
     } else if(node.value == "expressao"){
         string var;
