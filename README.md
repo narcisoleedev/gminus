@@ -1,4 +1,4 @@
-## Simple lexer made in cpp for C- language.
+## Simple compiler made in cpp for C- language.
 
 In case you're my professor here are the names of the members:
 
