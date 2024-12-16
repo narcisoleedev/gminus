@@ -15,5 +15,8 @@ void main(void){
     }
     y = 0;
   }
-  output(count);
+  if(count>100){
+    output(69);
+
+  }
 }

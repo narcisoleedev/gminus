@@ -13,6 +13,7 @@ unordered_map<string, int> st; //Tabela de Símbolos
 int regCounter = 0;
 int regCounterS = 0;
 int whiles = 0;
+int ifs = 0;
 
 string allocateRegister() {
     return "$t" + to_string(regCounter++);
@@ -149,6 +150,69 @@ void generate(ASTNode &node){
             st[ID] = 0;
             dotdata.push_back(ID + ": .space " + to_string(sizeorvalue*4));  
         }  
+
+    } else if(node.value == "if"){
+        int ifL = ifs++;
+        if(node.children.size()==3){
+            if(node.children[0]->children[0]->value == "=="){
+                dottext.push_back("\tbne " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]) + ", else" + to_string(ifs-1));
+
+            } else if(node.children[0]->children[0]->value == "!="){
+                dottext.push_back("\tbeq " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]) + ", else" + to_string(ifs-1));
+
+            } else if(node.children[0]->children[0]->value == "<"){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tbgez " + allocateRegisterSM() + ", else" + to_string(ifL));
+
+            } else if(node.children[0]->children[0]->value == "<="){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tbgtz " + allocateRegisterSM() + ", else" + to_string(ifL));
+
+            } else if(node.children[0]->children[0]->value == ">"){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tblez " + allocateRegisterSM() + ", else" + to_string(ifL));
+
+            } else if(node.children[0]->children[0]->value == ">="){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tbltz " + allocateRegisterSM() + ", else" + to_string(ifL));
+
+            }
+            generate(*node.children[1]);
+            dottext.push_back("\tj then" + to_string(ifL));
+            dottext.push_back("\telse" + to_string(ifL) + ":");
+            generate(*node.children[2]);
+            dottext.push_back("\tj then" + to_string(ifL));
+            dottext.push_back("\tthen" + to_string(ifL) + ":");
+
+        } else {
+            if(node.children[0]->children[0]->value == "=="){
+                dottext.push_back("\tbne " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]) + ", then" + to_string(ifs-1));
+
+            } else if(node.children[0]->children[0]->value == "!="){
+                dottext.push_back("\tbeq " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]) + ", then" + to_string(ifs-1));
+
+            } else if(node.children[0]->children[0]->value == "<"){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tbgez " + allocateRegisterSM() + ", then" + to_string(ifL));
+
+            } else if(node.children[0]->children[0]->value == "<="){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tbgtz " + allocateRegisterSM() + ", then" + to_string(ifL));
+
+            } else if(node.children[0]->children[0]->value == ">"){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tblez " + allocateRegisterSM() + ", then" + to_string(ifL));
+
+            } else if(node.children[0]->children[0]->value == ">="){
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + generateExpression(*node.children[0]->children[0]->children[0]) + ", " + generateExpression(*node.children[0]->children[0]->children[1]));
+                dottext.push_back("\tbltz " + allocateRegisterSM() + ", then" + to_string(ifL));
+
+            }
+            generate(*node.children[1]);
+            dottext.push_back("\tj then" + to_string(ifL));
+            dottext.push_back("\tthen" + to_string(ifL) + ":");
+
+        }
 
     } else if(node.value == "while"){
         int whileL = whiles++; 
