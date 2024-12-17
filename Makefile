@@ -1,6 +1,6 @@
 main:
 	bison -d src/parser.y
-	g++ main.cpp src/lexer.cpp parser.tab.c -o lexer	
+	g++ main.cpp src/lexer.cpp parser.tab.c src/semantics.cpp -o lexer	
 	#./lexer ./input/prg1.c- > output/out1.txt 2>&1
 	#./lexer ./input/prg2.c- > output/out2.txt 2>&1
 	#./lexer ./input/prg3.c- > output/out3.txt 2>&1
