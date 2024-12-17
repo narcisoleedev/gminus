@@ -266,7 +266,17 @@ void generate(ASTNode &node){
         regCounter = 0;
         regCounterS = 0;
 
-    } else {
+    } /*else if(node.value == "return"){
+        if(!node.children.empty()){
+
+            string retReg = generateExpression(*node.children[0]);
+            dottext.push_back("\tmove $v0, " + retReg);
+        }
+        dottext.push_back("\tlw   $ra, 0($sp)");
+        dottext.push_back("\taddi $sp, $sp, 4");
+        dottext.push_back("\tjr   $ra");
+
+    } */else {
         if(hasChildren(&node)){
             for (ASTNode* child : node.children) {
                 generate(*child); 
@@ -274,12 +284,21 @@ void generate(ASTNode &node){
         }
     }
 }
+string getFirstFunction(ASTNode &node){
+    if(hasChildren(&node)){
+            for (ASTNode* child : node.children) {
+                 if(child->value == "fun-declaracao"){
+                    return treatIDNUM(child->children[1]->value);
+                 }
+            }
+        }
+};
 
-void includeInstructions(){
+void includeInstructions(string firstFunction){
     //Cabeçalhos
     dotdata.push_back(".data");
     dottext.push_back(".text");
-    dottext.push_back("\tjal main");
+    dottext.push_back("\tjal " + firstFunction);
     //Função de input
     dottext.push_back("input:");
     dottext.push_back("\tli   $v0, 5");
@@ -294,5 +313,24 @@ void includeInstructions(){
     dottext.push_back("\tsyscall");
     dottext.push_back("\tjr   $ra");
     
+}
+
+int toFile(){
+
+    ofstream fio("output.asm", ios::app);
+    if (fio.is_open()) {
+        for (std::string ins: dotdata) {
+            fio << ins << endl;
+        }
+        for (std::string ins: dottext) {
+            fio << ins << endl;
+        }
+        fio.close();
+        cout << "File closed." << endl;
+        }
+            else {
+                cout << "Error opening file!" << endl;
+            }
+        return 0;
 }
 

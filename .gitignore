@@ -3,3 +3,4 @@ output/*
 lexer
 parser.tab.c
 parser.tab.h
+output.asm

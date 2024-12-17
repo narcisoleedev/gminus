@@ -50,14 +50,8 @@ int main(int argc, char *argv[]){
     semanticAnalysis(ast->root);
     if(getValidCode()){
         cout << "\nAPROVADO PELO ANALISADOR :)\n" << endl;
-        includeInstructions();
-        generate(*ast->root);
-        for (std::string ins: dotdata) {
-            std::cout << ins << endl;
-        }
-        for (std::string ins: dottext) {
-            std::cout << ins << endl;
-        }
+        //includeInstructions(getFirstFunction(*ast->root));
+        //generate(*ast->root);
+        //toFile();
     }
-
 }
