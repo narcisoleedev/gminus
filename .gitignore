@@ -1,6 +1,6 @@
 .vscode
 output/*
-lexer
+gminus
 parser.tab.c
 parser.tab.h
 output.asm
