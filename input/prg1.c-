@@ -1,11 +1,7 @@
-/* Este método insere x entre v[k-1] e v[k]
-// no vetor v[0..n-1]. O método super apenas que
-// 0 <= k <= n. Ele devolve valor de n atualizado. */
+//PROGRAMA COM ERRO NO ANALISADOR LÉXICO
 
-int inserir (int k, int x, int n, int v[])
+int erroLex(void)
 {
-int j;
-for (j = n; j > k; --j) v[j] = v[j-1];
-v[k] = x;
-return n + /* erro de sintaxe */
+    int @ = 3;
+    cout << @ << endl;
 }

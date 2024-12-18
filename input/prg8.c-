@@ -1,37 +1,19 @@
-/* QuickSort -- ordenacao rapida */
+int i;
 
-void quickSort(int [] A, int p, int r)
+int fib(int a)
 {
-  int q;
-  if( p < r )
-  {
-    q = particao(A, p, r);
-    quickSort(A, p, q-1);
-    quickSort(A, q+1, r);
+  if (a == 0) {
+    return 1;
   }
+  if(a == 1) {
+    return 1;
+  }
+  return fib(a - 1) + fib(a - 2);;
 }
 
-int particao(int [] A, int p, int r)
+void main(void)
 {
- int x, i, j, temp;
-
- x = A[r]; /* pivo */
- i = p - 1;
-
- for(j=p; j <= r-1; ++j)
-   if(A[j] >= x)
-    {
-     i++;
-     /* trocar */
-     temp = A[i];
-     A[i] = A[j];
-     A[j] = temp;
-    }
-
- /* reposicionar o pivo */
-     temp = A[i+1];
-     A[i+1] = A[r];
-     A[r] = temp;
- imprimeVetorPar(A, p, r);
-return (i+1);
+    int a;
+    a = input();
+    output(fib(a));
 }
