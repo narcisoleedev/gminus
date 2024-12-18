@@ -24,7 +24,7 @@ In case you're my professor here are the names of the members:
 TO RUN: ```make```
 
 It creates the <b>"parser.tab.c"</b> and <b>"parser.tab.h"</b> and run all files in the "input" folder.
-The debugging with all steps (lexer, syntax and semantic) are outputed in the out files.
+The debugging with all steps (lexer, syntax and semantic) are outputedinside the "output" folder, so make sure to CREATE a directory called "output".
 After running all, the last execution will run an <b>"output.asm"</b> file at the root of the project folder that you can run on Mars.
 
 TO RUN A SIMPLE FILE: 
