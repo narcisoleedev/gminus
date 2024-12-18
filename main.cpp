@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
     ast = yytree();
     cout << "AST TREE" << endl;
     ast->printTree();
-
+    cout << "SEMANTIC ANALYSIS" << endl;
     semanticAnalysis(ast->root);
     if(getValidCode()){
         cout << "\nAPROVADO PELO ANALISADOR :)\n" << endl;

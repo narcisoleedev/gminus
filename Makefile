@@ -10,6 +10,6 @@ main:
 	#./gminus ./input/prg7.c- > output/out7.txt 2>&1
 	#./gminus ./input/prg8.c- > output/out8.txt 2>&1
 	#./gminus ./input/prg9.c- > output/out9.txt 2>&1
-	./gminus ./input/prg10.c- > output/out10.txt 2>&1
+	#./gminus ./input/prg10.c- > output/out10.txt 2>&1
 	
 
