@@ -1,11 +1,11 @@
 int x;
 
-int ummaisum(int j[], int z){
-    return 1 + 1;
+int plus(int y[], int z){
+    return y + z;
 }
 
 void teste(void){
     int x[3];
-    x[2]=3+4;
-    //output(x[2]);
+    x[2]= 3 + 4;
+    output(plus(x[2], 5));
 }

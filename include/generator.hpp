@@ -4,16 +4,19 @@
 #include <unordered_map>
 
 #include "../include/ast.hpp"
+#include "../include/symboltable.hpp"
 
 using namespace std;
 
 vector<string> dotdata; //.data
 vector<string> dottext; //.text
 unordered_map<string, int> st; //Tabela de Símbolos
+vector<SymbolTable*> tablesST; //Tabela de Símbolos
 int regCounter = 0;
 int regCounterS = 0;
 int whiles = 0;
 int ifs = 0;
+bool isLocal = false;
 
 string allocateRegister() {
     return "$t" + to_string(regCounter++);
@@ -121,9 +124,12 @@ string generateExpression(ASTNode &node){
 
 void generate(ASTNode &node){
     if (node.value == "programa") {
+        tablesST.push_back(new SymbolTable());
+        SymbolTable* currentTable = tablesST[(size(tablesST))-1];
         for (ASTNode* child : node.children) {
             generate(*child); 
         }
+        tablesST.pop_back();
     
     } else if (node.value == "statement") {
         for (ASTNode* child : node.children) {
@@ -131,27 +137,56 @@ void generate(ASTNode &node){
         }
 
     } else if(node.value == "fun-declaracao"){
+        isLocal = true;
+        tablesST.push_back(new SymbolTable());
+        SymbolTable* currentTable = tablesST[(size(tablesST))-1];
         string funcName = treatIDNUM(node.children[1]->value);
-        if(node.children[0]->value == "int"){
-            dotdata.push_back(funcName + ": .word 0");
-        }
+        /*for(ASTNode *child: node.children[2]->children){
+
+        }*/
          //Pega o nome da função
         dottext.push_back(funcName + ":"); //Cria função no MIPS
         generate(*node.children[3]); //Gera o corpo da requisição
+        tablesST.pop_back();
+        isLocal = false;
 
     } else if(node.value == "var-declaracao"){
         string ID = treatIDNUM(node.children[1]->value);
-        if(node.children.size()<3){ //Se não for um array de inteiros
-            st[ID] = 0;
-            dotdata.push_back(ID + ": .word 0");   
+        SymbolTable* currentTable = tablesST[(size(tablesST))-1]; 
+        if(isLocal==false){
+            if(node.children.size()<3){ //Se não for um array de inteiros
+                st[ID] = 0;
+                dotdata.push_back(ID + ": .word 0"); 
+                Identifier* idObj = new Identifier(ID, "int", "", {});
+                currentTable->InsertId(idObj);
 
-        } else { //Se for um array de inteiros
-            int sizeorvalue = treatNUM(node.children[2]->value);
-            st[ID] = 0;
-            dotdata.push_back(ID + ": .space " + to_string(sizeorvalue*4));  
-        }  
+            } else { //Se for um array de inteiros
+                int sizeorvalue = treatNUM(node.children[2]->value);
+                st[ID] = 0;
+                dotdata.push_back(ID + ": .space " + to_string(sizeorvalue*4)); 
+                Identifier* idObj = new Identifier(ID, "vector", "", {});
+                currentTable->InsertId(idObj); 
+            }  
+
+        } else {
+
+            if(node.children.size()<3){ //Se não for um array de inteiros
+                st[ID] = 0;
+                Identifier* idObj = new Identifier(ID, "int", "", {});
+                currentTable->InsertId(idObj);
+
+            } else { //Se for um array de inteiros
+                int sizeorvalue = treatNUM(node.children[2]->value);
+                st[ID] = 0;
+                dotdata.push_back(ID + ": .space " + to_string(sizeorvalue*4)); 
+                Identifier* idObj = new Identifier(ID, "vector", "", {});
+                currentTable->InsertId(idObj); 
+            } 
+        }
 
     } else if(node.value == "if"){
+        tablesST.push_back(new SymbolTable());
+        SymbolTable* currentTable = tablesST[(size(tablesST))-1];
         int ifL = ifs++;
         if(node.children.size()==3){
             if(node.children[0]->children[0]->value == "=="){
@@ -211,10 +246,13 @@ void generate(ASTNode &node){
             generate(*node.children[1]);
             dottext.push_back("\tj then" + to_string(ifL));
             dottext.push_back("\tthen" + to_string(ifL) + ":");
+            tablesST.pop_back();
 
         }
 
     } else if(node.value == "while"){
+        tablesST.push_back(new SymbolTable());
+        SymbolTable* currentTable = tablesST[(size(tablesST))-1];
         int whileL = whiles++; 
         dottext.push_back("while" + to_string(whiles-1) + ":");
         if(node.children[0]->children[0]->value == "=="){
@@ -243,6 +281,7 @@ void generate(ASTNode &node){
         generate(*node.children[1]);
         dottext.push_back("\tj while" + to_string(whileL));
         dottext.push_back("exit" + to_string(whileL) + ":");
+        tablesST.pop_back();
 
     } else if(node.value == "expressao"){
         string var;

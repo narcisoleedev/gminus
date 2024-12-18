@@ -21,6 +21,9 @@ CODE GENERATOR: [AST -> .asm(MIPS)] progress: 60%
 
 TO RUN: ```make```
 
+It creates the <b>"parser.tab.c" and "parser.tab.h"</b> and run all files in the "input" folder.
+After running all, the last execution will run an <b>"output.asm"</b> file that you can run on Mars.
+
 ERRORS:
     - It gives an unkwown error at prg1.c-
 
