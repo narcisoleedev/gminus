@@ -1,12 +1,12 @@
+//PROGRAMA COM ERRO NO ANALISADOR SINTÁTICO
+
 int tirazeros (int n, int v[])
 {
    int i, j;
-   i = 0;
-   for (j = 0; j &< n; ++j)   /* operador invalido */
-      if (v[j] != 0)
-         {
-          v[i] = v[j];
-          i++;
-         }
-   return i;
+   i = 0; 
+   if (v[j] != 0)
+      {
+         v[i] = v[j];
+         i++;
+      
 }

@@ -21,7 +21,7 @@ Identifier* searchTables(string name){
 void semanticAnalysis(ASTNode* n){
     
     //Criar uma tabela nova quando muda de escopo
-    if(n->value == "programa" || n->value == "if" || n->value == "while") {
+    if(n->value == "programa") {
         tables.push_back(new SymbolTable());
     }
 
@@ -98,9 +98,9 @@ void semanticAnalysis(ASTNode* n){
                 ASTNode* params = node->children[2];
 
                 //Verificando se eh uma função sem parâmetros
-                if(size(params->children) == 1 && params->children[0]->value == "void"){
+                if(params->children[0]->value == "void"){
                     id = new Identifier(name, "function", returnType, {});
-                    currentTable->InsertId(id);
+                    tables[0]->InsertId(id);
 
                     //Criando nova tabela de símbolos para o escopo dessa função
                     tables.push_back(new SymbolTable());
@@ -132,7 +132,7 @@ void semanticAnalysis(ASTNode* n){
                         paramsLista.push_back("int");
                     }
                     id = new Identifier(name, "function", returnType, paramsLista);
-                    currentTable->InsertId(id);
+                    tables[0]->InsertId(id);
 
                     tables.push_back(new SymbolTable());
                     currentTable = tables[(size(tables))-1];    
@@ -179,8 +179,17 @@ void semanticAnalysis(ASTNode* n){
         childIndex++;
     }
     //Deleta a tabela atual quando sai do escopo
-    if(n->value == "programa" || n->value == "fun-declaracao" || n->value == "if" || n->value == "while") {
+    if(n->value == "programa") {
+        Identifier* id = searchTables("main");
+
+        //Sem função main
+        if(id == nullptr){
+            cout << "No main function found." << endl;
+            validCode = false;
+        }
         tables.pop_back();
-        //delete(currentTable);
+    }
+     if(size(tables)>1 && n->value == "fun-declaracao") {
+        tables.pop_back();
     }
 }

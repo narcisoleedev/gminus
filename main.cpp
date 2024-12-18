@@ -45,6 +45,7 @@ int main(int argc, char *argv[]){
     AST* ast;
     yyparse();
     ast = yytree();
+    cout << "AST TREE" << endl;
     ast->printTree();
 
     semanticAnalysis(ast->root);

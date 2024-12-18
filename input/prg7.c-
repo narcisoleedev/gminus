@@ -1,9 +1,27 @@
-int multr (int m, int n)
-  {
-    int r = 1;
-    # /* caractere invalido */
-    if(n == 0)
-      return 0;
-    else
-      return (m + multr(m, n-1));
-  }
+int sum(int a, int b){
+  return a + b;
+}
+
+int sub(int a, int b){
+  return a - b;
+}
+
+int mul(int a, int b){
+  return a * b;
+}
+
+int div(int a, int b){
+  return a / b;
+}
+
+void main(void){
+  int a;
+  int b;
+  int c[3];
+  a = 5;
+  b = input();
+  c[0] = sum(a, b);
+  c[1] = sub(a, b);
+  output(mul(a, b));
+  c[2] = div(a, b);
+}
