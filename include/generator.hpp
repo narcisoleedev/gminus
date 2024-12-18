@@ -17,6 +17,7 @@ int regCounterS = 0;
 int whiles = 0;
 int ifs = 0;
 bool isLocal = false;
+int offset = 0;
 
 string allocateRegister() {
     return "$t" + to_string(regCounter++);
@@ -65,6 +66,14 @@ string treatIDNUM(string IDNUM){
     return toReturn; 
 }
 
+Identifier* searchTablesST(string name){
+    for (int i = size(tablesST) - 1; i>= 0; i--){
+        Identifier* id = tablesST[i]->findId(name);
+        if(id != nullptr) { return id; }
+    }
+    return nullptr;
+}
+
 string generateExpression(ASTNode &node){
 
     if(node.value == "PLUS"){
@@ -89,8 +98,11 @@ string generateExpression(ASTNode &node){
 
     } else if(node.value == "ativacao"){
         if(node.children.size()>1){ //Ou seja se args tiver filho, tipo tiver args
-            dottext.push_back("\tmove $a0, " + generateExpression(*node.children[1]->children[0]));
-
+            int count = 0;
+            for(ASTNode* child: node.children[1]->children){
+                dottext.push_back("\tmove $a" + to_string(count) + ", " + generateExpression(*child));
+                count++;
+            }
         }
         dottext.push_back("\tjal " + treatIDNUM(node.children[0]->value));
         if(treatIDNUM(node.children[0]->value) == "output"){
@@ -101,23 +113,43 @@ string generateExpression(ASTNode &node){
         } else if(treatIDNUM(node.children[0]->value) == "input"){
             return "$v0";
         }
+        return "$v0";
 
     } else if(!node.value.empty() && node.value.at(0) == 'N'){
         dottext.push_back("\tli " + allocateRegisterM() + ", " + to_string(treatNUM(node.value))); 
         return allocateRegister();
 
     } else if(!node.value.empty() && node.value.at(0) == 'v'){
-        if(node.children.size() > 1){ //Se for um vetor 
-            string tnumber = generateExpression(*node.children[1]);
-            dottext.push_back("\tla " + allocateRegister() + ", " + treatIDNUM(node.children[0]->value));
-            dottext.push_back("\tmul " + allocateRegisterM() + ", " + tnumber + ", 4");
-            dottext.push_back("\tadd " + allocateRegisterM() + ", " + allocateRegisterM() + ", " + allocateRegisterMM());
-            dottext.push_back("\tlw " + allocateRegisterSM() + ", 0(" + allocateRegisterM() + ")");
-            return allocateRegisterS(); 
 
-        } else { //Se for um var normal
-            dottext.push_back("\tlw " + allocateRegisterM() + ", " + treatIDNUM(node.children[0]->value));
-            return allocateRegister(); 
+        string var = treatIDNUM(node.children[0]->value);
+        Identifier* id = searchTablesST(var);
+        if(id->returnType==""){
+            if(node.children.size() > 1){ //Se for um vetor 
+                string tnumber = generateExpression(*node.children[1]);
+                dottext.push_back("\tla " + allocateRegister() + ", " + var);
+                dottext.push_back("\tmul " + allocateRegisterM() + ", " + tnumber + ", 4");
+                dottext.push_back("\tadd " + allocateRegisterM() + ", " + allocateRegisterM() + ", " + allocateRegisterMM());
+                dottext.push_back("\tlw " + allocateRegisterSM() + ", 0(" + allocateRegisterM() + ")");
+                return allocateRegisterS(); 
+
+            } else { //Se for um var normal
+                dottext.push_back("\tlw " + allocateRegisterM() + ", " + treatIDNUM(node.children[0]->value));
+                return allocateRegister(); 
+            }
+
+        } else {
+            if(node.children.size() > 1){ //Se for um vetor 
+                string tnumber = generateExpression(*node.children[1]);
+                dottext.push_back("\taddi " + allocateRegisterSM() + ", $sp, " + to_string((offset - (stoi(id->returnType)) -1)*4)); //MUDEI AQ TBM EM
+                dottext.push_back("\tmul " + tnumber + ", " + tnumber + ", 4");
+                dottext.push_back("\tsub " + allocateRegisterSM() + ", " + allocateRegisterSM() + ", " + tnumber);
+                dottext.push_back("\tlw " + allocateRegisterSM() + ", 0(" + allocateRegisterS() + ")");
+                return allocateRegisterSM(); 
+
+            } else { //Se for um var normal
+                dottext.push_back("\tlw " + allocateRegisterM() + ", " + to_string(((offset-(stoi(id->returnType))-1)*4)) +"($sp)"); //MUDEI AQ TBM EM
+                return allocateRegister(); 
+            }
         }
     }
 }
@@ -141,12 +173,36 @@ void generate(ASTNode &node){
         tablesST.push_back(new SymbolTable());
         SymbolTable* currentTable = tablesST[(size(tablesST))-1];
         string funcName = treatIDNUM(node.children[1]->value);
-        /*for(ASTNode *child: node.children[2]->children){
-
-        }*/
-         //Pega o nome da função
+        //Pega o nome da função
         dottext.push_back(funcName + ":"); //Cria função no MIPS
+        dottext.push_back("\tsub $sp, $sp, 4");
+        dottext.push_back("\tsw $ra, 0($sp)"); //MUDEI AQ EM
+        offset++;
+        if(node.children[2]->children[0]->value != "void"){
+            int count = 0;
+            for(ASTNode* param: node.children[2]->children){
+                string ID = treatIDNUM(param->children[1]->value);
+                if(param->children.size()<3){ //Se não for um array de inteiros
+                    Identifier* idObj = new Identifier(ID, "int", to_string(offset), {});
+                    currentTable->InsertId(idObj);
+                    dottext.push_back("\tsub $sp, $sp, 4");
+                    dottext.push_back("\tmove " + allocateRegisterSM() + ", $a" + to_string(count));
+                    dottext.push_back("\tsw  " + allocateRegisterSM() + ", 0($sp)");
+                    offset++;
+
+                } else { //Se for um array de inteiros
+                   //NÃO IMPLEMENTADO AINDA PAE
+                } 
+                count++;
+            }
+        }
         generate(*node.children[3]); //Gera o corpo da requisição
+        if(node.children[0]->value == "void"){
+            dottext.push_back("\tlw $ra, " + to_string((offset-1)*4) + "($sp)");
+            dottext.push_back("\tadd $sp, $sp, " + to_string(offset*4));
+            dottext.push_back("\tjr $ra");
+        }
+        offset = 0;
         tablesST.pop_back();
         isLocal = false;
 
@@ -155,14 +211,14 @@ void generate(ASTNode &node){
         SymbolTable* currentTable = tablesST[(size(tablesST))-1]; 
         if(isLocal==false){
             if(node.children.size()<3){ //Se não for um array de inteiros
-                st[ID] = 0;
+                //st[ID] = 0;
                 dotdata.push_back(ID + ": .word 0"); 
                 Identifier* idObj = new Identifier(ID, "int", "", {});
                 currentTable->InsertId(idObj);
 
             } else { //Se for um array de inteiros
                 int sizeorvalue = treatNUM(node.children[2]->value);
-                st[ID] = 0;
+                //st[ID] = 0;
                 dotdata.push_back(ID + ": .space " + to_string(sizeorvalue*4)); 
                 Identifier* idObj = new Identifier(ID, "vector", "", {});
                 currentTable->InsertId(idObj); 
@@ -171,16 +227,22 @@ void generate(ASTNode &node){
         } else {
 
             if(node.children.size()<3){ //Se não for um array de inteiros
-                st[ID] = 0;
-                Identifier* idObj = new Identifier(ID, "int", "", {});
+                //st[ID] = 0;
+                Identifier* idObj = new Identifier(ID, "int", to_string(offset), {});
                 currentTable->InsertId(idObj);
+                dottext.push_back("\tsub $sp, $sp, 4");
+                dottext.push_back("\tli " + allocateRegisterSM() + ", 0");
+                dottext.push_back("\tsw  " + allocateRegisterSM() + ", 0($sp)");
+                offset++;
 
             } else { //Se for um array de inteiros
                 int sizeorvalue = treatNUM(node.children[2]->value);
-                st[ID] = 0;
-                dotdata.push_back(ID + ": .space " + to_string(sizeorvalue*4)); 
-                Identifier* idObj = new Identifier(ID, "vector", "", {});
-                currentTable->InsertId(idObj); 
+                //st[ID] = 0;
+                Identifier* idObj = new Identifier(ID, "vector", to_string(offset), {});
+                currentTable->InsertId(idObj);
+                dottext.push_back("\tsub $sp, $sp, " + to_string(4*sizeorvalue));
+                dottext.push_back("\tsw  " + allocateRegisterSM() + ", 0($sp)");
+                offset = offset + sizeorvalue; 
             } 
         }
 
@@ -280,23 +342,42 @@ void generate(ASTNode &node){
         }
         generate(*node.children[1]);
         dottext.push_back("\tj while" + to_string(whileL));
-        dottext.push_back("exit" + to_string(whileL) + ":");
+        dottext.push_back("\texit" + to_string(whileL) + ":");
         tablesST.pop_back();
 
     } else if(node.value == "expressao"){
         string var;
         if(node.children.size()>2){
             var = treatIDNUM(node.children[0]->children[0]->value);
+            Identifier* id = searchTablesST(var);
             if(node.children[0]->children.size()<=1){
-                dottext.push_back("\tsw " + generateExpression(*node.children[2]) + ", " + var); 
+                if(id->returnType == ""){
+                    dottext.push_back("\tsw " + generateExpression(*node.children[2]) + ", " + var); 
 
-            } else {
-                string registerS = generateExpression(*node.children[2]);
-                string tnumber = generateExpression(*node.children[0]->children[1]);
-                dottext.push_back("\tla " + allocateRegisterM() + ", " + var);
-                dottext.push_back("\tmul " + tnumber + ", " + tnumber + ", 4");
-                dottext.push_back("\tadd " + allocateRegisterM() + ", " + tnumber + ", " + allocateRegisterM());
-                dottext.push_back("\tsw " + registerS + ", 0(" + allocateRegisterM() + ")");
+                } else {
+                    dottext.push_back("\tsw " + generateExpression(*node.children[2]) + ", " + to_string((offset-(stoi(id->returnType))-1)*4) + "($sp)"); 
+
+                }
+
+            } else { 
+                if(id->returnType == ""){ //Se ele for uma variável global
+                    string registerS = generateExpression(*node.children[2]);
+                    string tnumber = generateExpression(*node.children[0]->children[1]);
+                    dottext.push_back("\tla " + allocateRegisterM() + ", " + var);
+                    dottext.push_back("\tmul " + tnumber + ", " + tnumber + ", 4");
+                    dottext.push_back("\tadd " + allocateRegisterM() + ", " + tnumber + ", " + allocateRegisterM());
+                    dottext.push_back("\tsw " + registerS + ", 0(" + allocateRegisterM() + ")");
+
+                } else {
+                    string registerS = generateExpression(*node.children[2]);
+                    string tnumber = generateExpression(*node.children[0]->children[1]);
+                    //dottext.push_back("\tmove " + allocateRegisterSM() + ", " + registerS);
+                    //dottext.push_back("\tsw " + registerS + ", " + to_string((stoi(id->returnType)+stoi(tnumber))*4) + "($sp)");
+                    dottext.push_back("\taddi " + allocateRegister() + ", $sp, " + to_string((offset - (stoi(id->returnType))-1)*4)); //MUDEI AQ EM
+                    dottext.push_back("\tmul " + tnumber + ", " + tnumber + ", 4");
+                    dottext.push_back("\tsub " + allocateRegisterMM() + ", " + allocateRegisterMM() + ", " + tnumber);
+                    dottext.push_back("\tsw " + registerS + ", 0(" + allocateRegisterMM() + ")");
+                }
             }
     
         } else {
@@ -305,17 +386,13 @@ void generate(ASTNode &node){
         regCounter = 0;
         regCounterS = 0;
 
-    } /*else if(node.value == "return"){
-        if(!node.children.empty()){
+    } else if(node.value == "return"){
+        dottext.push_back("\tmove $v0, " + generateExpression(*node.children[0]));
+        dottext.push_back("\tlw $ra, " + to_string((offset-1)*4) + "($sp)");
+        dottext.push_back("\tadd $sp, $sp, " + to_string(offset*4));
+        dottext.push_back("\tjr $ra");
 
-            string retReg = generateExpression(*node.children[0]);
-            dottext.push_back("\tmove $v0, " + retReg);
-        }
-        dottext.push_back("\tlw   $ra, 0($sp)");
-        dottext.push_back("\taddi $sp, $sp, 4");
-        dottext.push_back("\tjr   $ra");
-
-    } */else {
+    } else {
         if(hasChildren(&node)){
             for (ASTNode* child : node.children) {
                 generate(*child); 
@@ -337,7 +414,8 @@ void includeInstructions(string firstFunction){
     //Cabeçalhos
     dotdata.push_back(".data");
     dottext.push_back(".text");
-    dottext.push_back("\tjal " + firstFunction);
+    //dottext.push_back("\tjal " + firstFunction);
+    dottext.push_back("\tjal main");
     //Função de input
     dottext.push_back("input:");
     dottext.push_back("\tli   $v0, 5");

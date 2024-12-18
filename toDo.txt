@@ -13,11 +13,11 @@ Checar na tabela de símbolos se a gente está utilizando uma variável local ou
 
 ORDEM:
 
-Checar se a variável foi declarada localmente ou globalmente
-Alocar na tabela de símbolos para toda variável declarada.
-Checar na tabela de símbolos se a gente está utilizando uma variável local ou global.
-Desalocar espaço na stack toda vez que entrar em uma função.
-Desalocar espaço na stack para toda variável local.
-Alocar os espaços utilizados na stack antes de retornar a função.
+Checar se a variável foi declarada localmente ou globalmente //DONE
+Alocar na tabela de símbolos para toda variável declarada. //DONE
+Checar na tabela de símbolos se a gente está utilizando uma variável local ou global. //DONE
+Desalocar espaço na stack toda vez que entrar em uma função. //DONE
+Desalocar espaço na stack para toda variável local. //DONE
+Alocar os espaços utilizados na stack antes de retornar a função. //DONE
 Passar os parâmetros das funções nas variáveis $a0 a $a4.
 Retornar na $v0.

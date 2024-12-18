@@ -1,11 +1,10 @@
-int x;
-
-int plus(int y[], int z){
-    return y + z;
+int teste(int a, int b, int c, int d){
+    return a + b + c + d;
 }
 
-void teste(void){
-    int x[3];
-    x[2]= 3 + 4;
-    output(plus(x[2], 5));
+void main(void){
+    int x[5];
+    output(teste(1, 2, 3, 4));
 }
+
+

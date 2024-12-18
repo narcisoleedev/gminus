@@ -1,0 +1,7 @@
+* Guilherme Narciso Lee | nUSP: 12543203
+* Guilherme Cavalanti Gomes | nUSP: 11844788
+* Carlos Eduardo Bertoni Pompermayer | nUSP: 11795742
+
+A versão mais atualizada do código iremos mostrar para o senhor na apresentação:
+
+https://github.com/narcisoleedev/gminus
