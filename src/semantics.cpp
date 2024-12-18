@@ -180,6 +180,13 @@ void semanticAnalysis(ASTNode* n){
     }
     //Deleta a tabela atual quando sai do escopo
     if(n->value == "programa") {
+        Identifier* id = searchTables("main");
+
+        //Sem função main
+        if(id == nullptr){
+            cout << "No main function found." << endl;
+            validCode = false;
+        }
         tables.pop_back();
     }
      if(size(tables)>1 && n->value == "fun-declaracao") {
