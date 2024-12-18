@@ -1,6 +1,6 @@
 //PROGRAMA COM ERRO NO ANALISADOR SEMÂNTICO
 
-void main(){
+void teste(){
    int a;
    output(c);
 }
